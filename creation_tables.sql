@@ -4,7 +4,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 DROP TABLE IF EXISTS `auteur`;
 CREATE TABLE `auteur`(
    id_auteur INT NOT NULL AUTO_INCREMENT,
@@ -44,9 +43,9 @@ CREATE TABLE `livre`(
    id_livre INT NOT NULL AUTO_INCREMENT,
    titre VARCHAR(100) NOT NULL,
    resume TEXT,
-   date_parution INT,
+   date_parution DATE,
    nb_pages SMALLINT,
-   ISBN BIGINT,
+   isbn BIGINT,
    prix_editeur DECIMAL(10,2),
    id_editeur INT NOT NULL,
    id_auteur INT NOT NULL,
