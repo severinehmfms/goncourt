@@ -14,5 +14,5 @@ class Character:
         self.first_name = first_name
 
     def __str__(self) -> str:
-        return f"{self.name} {self.last_name}"
+        return f"{self.name} {self.first_name}"
 
