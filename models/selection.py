@@ -18,13 +18,22 @@ class Selection:
     # Liste des personnages principaux du livre
     selected_books: list[Book]
 
-    def __init__(self, nb_selection: int, selection_date:date, title: str, nb_books:int, jury:Jury, selected_books:List=None) -> None:
+    def __init__(self, nb_selection: int, selection_date:date, title: str, nb_books:int, jury:Jury=None, selected_books:List=None) -> None:
+        """ Constructeur """
         self.nb_selection = nb_selection
         self.selection_date = selection_date
         self.title = title
         self.nb_books = nb_books
         self.jury = jury
         self.selected_books = selected_books if selected_books is not None else []
+
+    def get_jury(self):
+        """ Renvoie le jury qui effectue la sélection"""
+        return self.jury
+
+    def set_jury(self, jury: Jury) -> None:
+        """ Met à jour le jury qui effectue la sélection"""
+        self.jury = jury
 
     def __str__(self) -> str:
         if (self.nb_selection == 1):
