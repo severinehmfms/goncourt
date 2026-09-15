@@ -38,3 +38,10 @@ INSERT INTO `selection` (`num_selection`, `date_selection`, `titre`, `nb_livres`
 (4, "2026-11-03", 'Lauréat', 1)
  ;
 
+''' Ajout des personnages principaux non reconnus par ChatGpt'''
+INSERT INTO `personnage` (`id_personnage`, `nom`, `prenom`, `id_livre`) VALUES
+(13, 'Le Minotaure', '', 2);
+
+INSERT INTO `personnage` (`id_personnage`, `nom`, `prenom`, `id_livre`) VALUES
+(14, 'Olivier', '', 7);
+
