@@ -95,7 +95,19 @@ def main() -> None:
                 # TODO Fonction à créer et faire en dao aussi --- On appelle la fonction métier qui renseigne cette sélection (et en base)
 
             case 4:
-                print("cas 4")
+                print("****************** Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat ******************")
+                # TODO Vérifier si la deuxième ET la troisième sélection ont pas déjà été faites
+                is_selection_2_already = True
+                is_selection_3_already = True
+                if (not is_selection_2_already and not is_selection_3_already):
+                    print("ERREUR - Les sélections n'ont pas encore toutes été renseignées, il n'est pas encore possible de réaliser cette action.")
+                    input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+                    continue
+                else:
+                    num_selection = 4
+                    selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
+                    print(selection)
+
             case 0:
                 print("Merci, et à bientôt! ")
 
