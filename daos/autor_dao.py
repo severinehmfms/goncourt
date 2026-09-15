@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Classe Dao[Student]
+Classe Dao[Autor]
 """
 from daos.dao import Dao
 from dataclasses import dataclass
@@ -20,7 +20,7 @@ class AutorDao(Dao[Autor]):
         return autor
 
     def read(self, id_autor: int) -> Optional[Autor]:
-        """Renvoit l'auteur correspondant à l'entité dont la clé primaire est id
+        """Renvoie l'auteur correspondant à l'entité dont la clé primaire est id
            (ou None s'il n'a pu être trouvé)"""
         autor: Optional[Autor]
 
@@ -36,8 +36,7 @@ class AutorDao(Dao[Autor]):
         return autor
 
     def read_all(self) -> list[Autor]:
-        """Renvoit l'ensemble des auteurs de la BD correspondant à l'entité dont l'id est id_autor
-           si ce paramètre est fourni."""
+        """Renvoie l'ensemble des auteurs de la BD."""
         autors_list: list[Autor] = []
 
         with Dao.connection.cursor() as cursor:
