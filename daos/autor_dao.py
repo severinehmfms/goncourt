@@ -24,14 +24,15 @@ class AutorDao(Dao[Autor]):
            (ou None s'il n'a pu être trouvé)"""
         autor: Optional[Autor]
 
-        with Dao.connection.cursor() as cursor:
-            sql = "SELECT * FROM auteur A WHERE A.id_auteur = %s"
-            cursor.execute(sql, (id_autor,))
-            record = cursor.fetchone()
-        if record is not None:
-            autor = self.autor_from_db(record)
-        else:
-            autor = None
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = "SELECT * FROM auteur A WHERE A.id_auteur = %s"
+                cursor.execute(sql, (id_autor,))
+                record = cursor.fetchone()
+            if record is not None:
+                autor = self.autor_from_db(record)
+        except Exception as e:
+            print(f"Exception : {e}")
 
         return autor
 
@@ -39,14 +40,18 @@ class AutorDao(Dao[Autor]):
         """Renvoie l'ensemble des auteurs de la BD."""
         autors_list: list[Autor] = []
 
-        with Dao.connection.cursor() as cursor:
-           sql = "SELECT * FROM auteur;"
-           cursor.execute(sql)
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = "SELECT * FROM auteur;"
+                cursor.execute(sql)
 
-           records = cursor.fetchall()
+                records = cursor.fetchall()
 
-        for record in records:
-            autors_list.append(self.autor_from_db(record))
+                for record in records:
+                    autors_list.append(self.autor_from_db(record))
+
+        except Exception as e:
+            print(f"Exception : {e}")
 
         return autors_list
 
