@@ -27,3 +27,10 @@ class Goncourt:
         autor_dao: AutorDao = AutorDao()
         return autor_dao.read_all()
 
+    def get_editor_by_id(self, id_editor: int) -> Optional[Editor]:
+        editor_dao: EditorDao = EditorDao()
+        return editor_dao.read(id_editor)
+
+    def get_editors_list(self) -> list[Editor]:
+        editor_dao: EditorDao = EditorDao()
+        return editor_dao.read_all()
