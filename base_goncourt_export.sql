@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 14 sep. 2026 à 13:55
+-- Généré le : mar. 15 sep. 2026 à 06:38
 -- Version du serveur : 11.7.1-MariaDB
 -- Version de PHP : 8.5.4
 
@@ -195,7 +195,9 @@ INSERT INTO `personnage` (`id_personnage`, `nom`, `prenom`, `id_livre`) VALUES
 (9, 'Dorléon', 'Jonas', 13),
 (10, 'Paola', '', 14),
 (11, 'Bataille', 'Georges', 16),
-(12, 'Pauvert', 'Jean-Jacques', 16);
+(12, 'Pauvert', 'Jean-Jacques', 16),
+(13, 'Le Minotaure', '', 2),
+(14, 'Olivier', '', 7);
 
 -- --------------------------------------------------------
 
@@ -304,7 +306,7 @@ ALTER TABLE `livre`
 -- AUTO_INCREMENT pour la table `personnage`
 --
 ALTER TABLE `personnage`
-  MODIFY `id_personnage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_personnage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `selection`
