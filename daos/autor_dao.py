@@ -50,15 +50,11 @@ class AutorDao(Dao[Autor]):
 
         return autors_list
 
-
-    def create(self, autor: Autor) -> int:
+    def create(self, autor: Autor) -> None:
         print("Méthode non implémentée")
 
-
-    def update(self, autor: Autor) -> bool:
+    def update(self, autor: Autor) -> None:
         print("Méthode non implémentée")
 
-
-    def delete(self, autor: Autor) -> bool:
+    def delete(self, autor: Autor) -> None:
         print("Méthode non implémentée")
-
