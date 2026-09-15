@@ -108,6 +108,12 @@ def main() -> None:
                     selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                     print(selection)
 
+                    # TODO Afficher chaque livre de la troisième sélection et demander le nombre de votes pour chaque livre
+
+                    # TODO Afficher la liste des 4 livres, et demander au Président le numéro du lauréat
+
+                    # TODO Enregistrer le lauréat dans la 4ème sélection
+
             case 0:
                 print("Merci, et à bientôt! ")
 
