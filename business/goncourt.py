@@ -9,8 +9,10 @@ from datetime import date
 from typing import Optional
 
 from daos.autor_dao import AutorDao
+from daos.character_dao import CharacterDao
 from daos.editor_dao import EditorDao
 from models.autor import Autor
+from models.character import Character
 from models.editor import Editor
 
 
@@ -34,3 +36,12 @@ class Goncourt:
     def get_editors_list(self) -> list[Editor]:
         editor_dao: EditorDao = EditorDao()
         return editor_dao.read_all()
+
+    def get_character_by_id(self, id_character: int) -> Optional[Character]:
+        character_dao: CharacterDao = CharacterDao()
+        return character_dao.read(id_character)
+
+    def get_characters_list(self) -> list[Editor]:
+        character_dao: CharacterDao = CharacterDao()
+        return character_dao.read_all()
+
