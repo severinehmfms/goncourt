@@ -26,14 +26,15 @@ class CharacterDao(Dao[Character]):
            (ou None s'il n'a pu être trouvé)"""
         character: Optional[Character]
 
-        with Dao.connection.cursor() as cursor:
-            sql = "SELECT * FROM personnage WHERE id_personnage = %s"
-            cursor.execute(sql, (id_character,))
-            record = cursor.fetchone()
-        if record is not None:
-            character = self.character_from_db(record)
-        else:
-            character = None
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = "SELECT * FROM personnage WHERE id_personnage = %s"
+                cursor.execute(sql, (id_character,))
+                record = cursor.fetchone()
+            if record is not None:
+                character = self.character_from_db(record)
+        except Exception as e:
+            print(f"Exception : {e}")
 
         return character
 
@@ -41,21 +42,24 @@ class CharacterDao(Dao[Character]):
         """Renvoie l'ensemble des personnages de la BD."""
         characters_list: list[Character] = []
 
-        with Dao.connection.cursor() as cursor:
+        try:
+            with Dao.connection.cursor() as cursor:
 
-            sql = ("SELECT * FROM personnage P "
-                   "LEFT JOIN livre L "
-                   "ON P.id_livre = L.id_livre")
-            if id_book is None:
-                cursor.execute(sql)
-            else:
-                sql += "WHERE id_livre = %s"
-                cursor.execute(sql, (id_book,))
+                sql = ("SELECT * FROM personnage P "
+                       "LEFT JOIN livre L "
+                       "ON P.id_livre = L.id_livre")
+                if id_book is None:
+                    cursor.execute(sql)
+                else:
+                    sql += "WHERE id_livre = %s"
+                    cursor.execute(sql, (id_book,))
 
-            records = cursor.fetchall()
+                records = cursor.fetchall()
 
-        for record in records:
-            characters_list.append(self.character_from_db(record))
+            for record in records:
+                characters_list.append(self.character_from_db(record))
+        except Exception as e:
+            print(f"Exception : {e}")
 
         return characters_list
 
