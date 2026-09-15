@@ -24,14 +24,15 @@ class EditorDao(Dao[Editor]):
            (ou None s'il n'a pu être trouvé)"""
         editor: Optional[Editor]
 
-        with Dao.connection.cursor() as cursor:
-            sql = "SELECT * FROM editeur WHERE id_editeur = %s"
-            cursor.execute(sql, (id_editor,))
-            record = cursor.fetchone()
-        if record is not None:
-            autor = self.editor_from_db(record)
-        else:
-            autor = None
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = "SELECT * FROM editeur WHERE id_editeur = %s"
+                cursor.execute(sql, (id_editor,))
+                record = cursor.fetchone()
+            if record is not None:
+                autor = self.editor_from_db(record)
+        except Exception as e:
+            print(f"Exception : {e}")
 
         return autor
 
@@ -39,14 +40,17 @@ class EditorDao(Dao[Editor]):
         """Renvoie l'ensemble des éditeurs de la BD."""
         editors_list: list[Editor] = []
 
-        with Dao.connection.cursor() as cursor:
-           sql = "SELECT * FROM editeur;"
-           cursor.execute(sql)
+        try:
+            with Dao.connection.cursor() as cursor:
+               sql = "SELECT * FROM editeur;"
+               cursor.execute(sql)
 
-           records = cursor.fetchall()
+               records = cursor.fetchall()
 
-        for record in records:
-            editors_list.append(self.editor_from_db(record))
+            for record in records:
+                editors_list.append(self.editor_from_db(record))
+        except Exception as e:
+            print(f"Exception : {e}")
 
         return editors_list
 
