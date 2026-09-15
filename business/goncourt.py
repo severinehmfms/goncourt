@@ -12,6 +12,7 @@ from daos.autor_dao import AutorDao
 from daos.book_dao import BookDao
 from daos.character_dao import CharacterDao
 from daos.editor_dao import EditorDao
+from daos.jury_dao import JuryDao
 from models.autor import Autor
 from models.character import Character
 from models.editor import Editor
@@ -53,3 +54,11 @@ class Goncourt:
     def get_books_list(self) -> list[Editor]:
         book_dao: BookDao = BookDao()
         return book_dao.read_all()
+
+    def get_jury_by_id(self, id_jury: int) -> Optional[Jury]:
+        jury_dao: JuryDao = JuryDao()
+        return jury_dao.read(id_jury)
+
+    def get_jurys_list(self) -> list[Editor]:
+        jury_dao: JuryDao = JuryDao()
+        return jury_dao.read_all()
