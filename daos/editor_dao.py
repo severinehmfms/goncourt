@@ -50,15 +50,11 @@ class EditorDao(Dao[Editor]):
 
         return editors_list
 
-
-    def create(self, editor: Editor) -> int:
+    def create(self, editor: Editor) -> None:
         print("Méthode non implémentée")
 
-
-    def update(self, editor: Editor) -> bool:
+    def update(self, editor: Editor) -> None:
         print("Méthode non implémentée")
 
-
-    def delete(self, editor: Editor) -> bool:
+    def delete(self, editor: Editor) -> None:
         print("Méthode non implémentée")
-
