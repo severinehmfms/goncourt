@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mar. 15 sep. 2026 à 06:38
+-- Généré le : mer. 16 sep. 2026 à 08:20
 -- Version du serveur : 11.7.1-MariaDB
 -- Version de PHP : 8.5.4
 
@@ -68,6 +68,28 @@ CREATE TABLE `choix` (
   `num_selection` smallint(6) NOT NULL,
   `nb_votes_scrutin_final` smallint(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Déchargement des données de la table `choix`
+--
+
+INSERT INTO `choix` (`id_livre`, `id_jury`, `num_selection`, `nb_votes_scrutin_final`) VALUES
+(1, 1, 1, NULL),
+(2, 1, 1, NULL),
+(3, 1, 1, NULL),
+(4, 1, 1, NULL),
+(5, 1, 1, NULL),
+(6, 1, 1, NULL),
+(7, 1, 1, NULL),
+(8, 1, 1, NULL),
+(9, 1, 1, NULL),
+(10, 1, 1, NULL),
+(11, 1, 1, NULL),
+(12, 1, 1, NULL),
+(13, 1, 1, NULL),
+(14, 1, 1, NULL),
+(15, 1, 1, NULL),
+(16, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
