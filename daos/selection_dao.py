@@ -9,8 +9,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 from models.book import Book
+from models.jury import Jury
 from models.selection import Selection
-
 
 @dataclass
 class SelectionDao(Dao[Selection]):
@@ -62,6 +62,38 @@ class SelectionDao(Dao[Selection]):
             print(f"Exception : {e}")
 
         return selections_list
+
+    def add_book_to_selection(self, selection: Selection, id_book:int, jury:Jury, nb_votes_scrutin_final: Optional[int] = None) -> None:
+        print("Méthode en cours d'implémentation")
+        try:
+            with Dao.connection.cursor() as cursor:
+                if (selection.nb_selection == 4 and nb_votes_scrutin_final != None):
+                    sql = """INSERT INTO choix(id_livre, id_jury, num_selection, nb_votes_scrutin_final) 
+                            VALUES (%s, %s, %s)"""
+                    cursor.execute(sql, (
+                        id_book,
+                        jury.id,
+                        selection.nb_selection,
+                        nb_votes_scrutin_final
+                    ))
+                else:
+                    sql = """INSERT INTO choix(id_livre, id_jury, num_selection) 
+                          VALUES (%s, %s, %s)"""
+                    cursor.execute(sql, (
+                        id_book,
+                        jury.id,
+                        selection.nb_selection
+                    ))
+                print(sql)
+                # récupération de l'id généré
+                id_choice = cursor.lastrowid
+
+                Dao.connection.commit()
+
+        except Exception as e:
+            print(f"Exception : {e}")
+            Dao.connection.rollback()
+            return False
 
     def create(self, selection: Selection) -> None:
         print("Méthode non implémentée")

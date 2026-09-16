@@ -115,7 +115,7 @@ class BookDao(Dao[Book]):
     def delete(self, book: Book) -> None:
         print("Méthode non implémentée")
 
-    def is_selection_completed(self, num_selection:int) -> bool:
+    def is_nb_books_completed(self, num_selection:int) -> bool:
         """ Méthode qui compare le nombre de livres déjà sélectionnés avec le nombre de livres attendus pour la sélection
         Renvoie true si le nombre de livres sélectionnés est égal au nombre de livres attendus, false sinon
         """

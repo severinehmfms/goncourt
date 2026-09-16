@@ -6,8 +6,12 @@ Application de gestion du prix Goncourt 2026
 """
 
 from business.goncourt import Goncourt
+from daos import jury_dao
+from models.book import Book
 from models.jury import Jury
+from models.president import President
 from models.selection import Selection
+
 
 
 def get_int_input(prompt, min_int, max_int):
@@ -41,10 +45,14 @@ def input_menu(items, multiline = False):
 def main() -> None:
     """Programme principal."""
     print("""--------------------------    
-          Prix Goncourt 2026    
-          --------------------------""")
+Prix Goncourt 2026    
+--------------------------""")
 
     goncourt_instance: Goncourt = Goncourt()
+
+    # On récupère le President, pour l'instant id en dur
+    president: President = goncourt_instance.get_jury_by_id(1)
+    #print(president)
 
     # Menu de l'application
     menu = [
@@ -97,19 +105,29 @@ def main() -> None:
                 selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                 print(selection)
 
+                print("Voici les livres disponibles : ")
+                list_books: list[Book] = goncourt_instance.get_books_list()
+                for b in list_books:
+                    print(b)
+
+                print(f"Vous allez choisir {selection.nb_books} livres parmi les livres existants.")
                 #Boucle par rapport au nombre de livres
+                list_id_books_selected: list[int] = []
+                for i in range(0, selection.nb_books):
+                    # On demande au président le numéro du livre qu'il souhaite ajouter à la sélection
+                    id_book_choisi = get_int_input("Entrez le numéro d'un livre à ajouter à la sélection \n", 1, selection.nb_books)
+                    # TODO pour test
+                    #id_book_choisi = i+1
+                    # TODO Mettre en place une vérification si un numéro a été choisi deux fois : peur de manquer de temps pour le faire !!!
+                    list_id_books_selected.append(id_book_choisi)
 
-                print(f"On doit donc choisir {selection.nb_books} livres parmi les livres existants")
-
-                # TODO  Si ok, alors on affiche la liste des livres dans un joli tableau et on demande au président de noter les numéros un par un séparés par un espace
-
-                # TODO Préparer une méthode d'input qui récupère le bon nombre de numéros en fonction de la sélection choisie (8 pour 2ème, 4 pour 3ème)
-
-                # TODO Fonction à créer et faire en dao aussi --- On appelle la fonction métier qui renseigne cette sélection (et en base)
+                # On appelle la fonction métier qui va ajouter le livre à cette sélection
+                for id in list_id_books_selected:
+                    goncourt_instance.add_book_to_selection(president, id, selection)
 
             case 4:
                 print("****************** Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat ******************")
-                # TODO Vérifier si la deuxième ET la troisième sélection ont pas déjà été faites
+                # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
                 if (not is_selection_2_already and not is_selection_3_already):
                     print("ERREUR - Les sélections n'ont pas encore toutes été renseignées, il n'est pas encore possible de réaliser cette action.")
                     input("Appuyez sur la touche 'Entrée' pour retourner au menu")
@@ -122,9 +140,6 @@ def main() -> None:
                 else:
                     num_selection = 4
                     selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
-
-
-
                     print(selection)
 
                     # TODO Afficher chaque livre de la troisième sélection et demander le nombre de votes pour chaque livre
