@@ -19,10 +19,10 @@ class JuryDao(Dao[Jury]):
         if record['is_president']:
             # Si is_president est à True, alors on crée un objet President!
             jury: President = President(record['nom'], record['prenom'])
-            jury.id = record['id_jury']
+            jury.id_jury = record['id_jury']
         else:
             jury: Jury = Jury(record['nom'], record['prenom'])
-            jury.id = record['id_jury']
+            jury.id_jury = record['id_jury']
         return jury
 
     def read(self, id_jury: int) -> Optional[Jury]:
