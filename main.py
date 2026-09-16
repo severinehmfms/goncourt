@@ -131,7 +131,7 @@ Prix Goncourt 2026
             case 4:
                 print("****************** Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat ******************")
                 # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
-                if (not is_selection_2_already and not is_selection_3_already):
+                if (not is_selection_2_already or not is_selection_3_already):
                     print("ERREUR - Les sélections n'ont pas encore toutes été renseignées, il n'est pas encore possible de réaliser cette action.")
                     input("Appuyez sur la touche 'Entrée' pour retourner au menu")
                     continue
@@ -145,11 +145,29 @@ Prix Goncourt 2026
                     selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                     print(selection)
 
-                    # TODO Afficher chaque livre de la troisième sélection et demander le nombre de votes pour chaque livre
+                    # On affiche les livres de la troisième sélection
+                    print("Voici les livres disponibles : ")
+                    list_books_availables: list[Book] = goncourt_instance.get_books_by_selection(num_selection - 1)
 
-                    # TODO Afficher la liste des 4 livres, et demander au Président le numéro du lauréat
+                    #On va conserver celui qui a le plus de votes
+                    max_votes = 0
+                    id_max_votes = 0
+                    #Pour chaque livre, on va demander au Président le nombre de votes obtenu
+                    for b in list_books_availables:
+                        print(f"Livre Numéro {b.id_book} Titre : {b.title} ")
+                        nb_votes = get_int_input("Combien de votes ce livre a t'il obtenu ? \n", 0, 10)
 
-                    # TODO Enregistrer le lauréat dans la 4ème sélection
+                        if nb_votes > max_votes:
+                            max_votes = nb_votes
+
+                        # On enregistre le nombre de votes dans la base (dans la sélection 3 en fait)
+                        goncourt_instance.update_nb_vote_by_book_selection(b.id_book, nb_votes)
+
+                    # Enregistrer le lauréat dans la 4ème sélection
+                    laureat_id = get_int_input("Entrez le numéro de livre du lauréat 2026 \n", 1, 16)
+
+                    # print(f"On va ajouter à la sélection numéro {selection.nb_selection}, le lauréat {laureat_id}")
+                    goncourt_instance.add_book_to_selection(president, laureat_id, selection)
 
             case 0:
                 print("Merci, et à bientôt! ")

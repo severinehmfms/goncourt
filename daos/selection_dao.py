@@ -64,33 +64,46 @@ class SelectionDao(Dao[Selection]):
 
         return selections_list
 
-    def add_book_to_selection(self, selection: Selection, id_book:int, jury:Jury, nb_votes_scrutin_final: Optional[int] = None) -> None:
+    # nb_votes_scrutin_final: Optional[int] = None
+    def add_book_to_selection(self, selection: Selection, id_book:int, jury:Jury) -> bool:
         """ Méthode qui permet d'ajouter dans la base de données un livre à la sélection (= une ligne dans la table choix)"""
         try:
             with Dao.connection.cursor() as cursor:
-                if (selection.nb_selection == 4 and nb_votes_scrutin_final != None):
-                    sql = """INSERT INTO choix(id_livre, id_jury, num_selection, nb_votes_scrutin_final) 
-                            VALUES (%s, %s, %s)"""
-                    cursor.execute(sql, (
-                        id_book,
-                        jury.id_jury,
-                        selection.nb_selection,
-                        nb_votes_scrutin_final
-                    ))
-                else:
-                    sql = """INSERT INTO choix(id_livre, id_jury, num_selection) 
-                          VALUES (%s, %s, %s)"""
-                    cursor.execute(sql, (
-                        id_book,
-                        jury.id_jury,
-                        selection.nb_selection
-                    ))
+                sql = """INSERT INTO choix(id_livre, id_jury, num_selection) 
+                      VALUES (%s, %s, %s)"""
+                cursor.execute(sql, (
+                    id_book,
+                    jury.id_jury,
+                    selection.nb_selection
+                ))
 
                 # récupération de l'id généré (pas utile)
                 # id_choice = cursor.lastrowid
 
                 Dao.connection.commit()
 
+                # cursor.rowcount permet de savoir si une ligne a été modifiée
+                return cursor.rowcount > 0
+        except Exception as e:
+            print(f"Exception : {e}")
+            Dao.connection.rollback()
+            return False
+
+    def update_nb_vote_by_book_selection(self, id_book:int, nb_votes:int, nb_selection:int) -> bool:
+        """ Méthode qui va permettre de mettre à jour le nombre de votes par livre de la 3ème sélection """
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = "UPDATE choix set nb_votes_scrutin_final=%s WHERE num_selection=%s AND id_livre=%s"
+                cursor.execute(sql, (
+                    nb_votes,
+                    nb_selection,
+                    id_book
+                ))
+
+                Dao.connection.commit()
+
+                # cursor.rowcount permet de savoir si une ligne a été modifiée
+                return cursor.rowcount > 0
         except Exception as e:
             print(f"Exception : {e}")
             Dao.connection.rollback()

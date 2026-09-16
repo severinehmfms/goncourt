@@ -101,12 +101,16 @@ class Goncourt:
         #book_dao: BookDao = BookDao()
         return BookDao.is_nb_books_completed(num_selection)
 
-    def add_book_to_selection(self,jury: Jury, id_book: int, selection: Selection, nb_votes_scrutin_final: Optional[int] = None) -> None:
+    def add_book_to_selection(self,jury: Jury, id_book: int, selection: Selection) -> bool:
         """Fonction qui ajoute un livre à la sélection"""
         selection_dao: SelectionDao = SelectionDao()
         # print(f"On va ajouter le livre numéro {id_book} à la sélection {selection.nb_selection}")
-        if (nb_votes_scrutin_final is not None):
-            print(f"Commenté. On va ajouter le livre numéro {id_book} avec le nombre de votes {nb_votes_scrutin_final} à la sélection {selection.nb_selection}")
-            # selection_dao.add_book_to_selection(selection, id_book, jury, nb_votes_scrutin_final)
-        else:
-            selection_dao.add_book_to_selection(selection, id_book, jury)
+        return selection_dao.add_book_to_selection(selection, id_book, jury)
+
+    def update_nb_vote_by_book_selection(self, id_book: int, nb_votes_scrutin_final: int, nb_selection: Optional[int] = 3) -> None:
+        """Fonction qui met à jour le nombre de votes des livres de la 3ème sélection pour le dernier scrutin
+        Sauf demande contraire , on force à 3 le numéro de la sélection concerné par la mise à jour des votes
+        """
+        selection_dao: SelectionDao = SelectionDao()
+        # print(f"On va mettre le nombre de votes : {nb_votes_scrutin_final} pour la sélection {nb_selection} pour le livre {id_book}")
+        return selection_dao.update_nb_vote_by_book_selection(id_book, nb_votes_scrutin_final, nb_selection)
