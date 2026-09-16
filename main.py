@@ -13,7 +13,6 @@ from models.president import President
 from models.selection import Selection
 
 
-
 def get_int_input(prompt, min_int, max_int):
     """Demande à l'utilisateur de saisir un entier compris entre min_int et max_int."""
     user_input = input(prompt).strip()
@@ -128,6 +127,8 @@ Prix Goncourt 2026
                     # print(f"On va ajouter le livre numéro {id} à la base")
                     goncourt_instance.add_book_to_selection(president, id, selection)
 
+                print ("Sélection bien effectuée")
+                input("Appuyez sur la touche 'Entrée' pour retourner au menu")
             case 4:
                 print("****************** Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat ******************")
                 # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
@@ -168,7 +169,8 @@ Prix Goncourt 2026
 
                     # print(f"On va ajouter à la sélection numéro {selection.nb_selection}, le lauréat {laureat_id}")
                     goncourt_instance.add_book_to_selection(president, laureat_id, selection)
-
+                    print("Action bien effectuée")
+                    input("Appuyez sur la touche 'Entrée' pour retourner au menu")
             case 0:
                 print("Merci, et à bientôt! ")
 

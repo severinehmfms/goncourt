@@ -52,7 +52,7 @@ class CharacterDao(Dao[Character]):
                     cursor.execute(sql)
                 else:
                     sql += "WHERE L.id_livre = %s"
-                    print(sql)
+                    #print(sql)
                     cursor.execute(sql, (id_book,))
 
                 records = cursor.fetchall()

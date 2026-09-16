@@ -34,7 +34,7 @@ class BookDao(Dao[Book]):
             editor = EditorDao().read(id_editor)
 
         if (autor and editor) is not None:
-            book: Book = Book(record['titre'], record['resume'], record['date_parution'], record['nb_pages'], record['ISBN'], record['prix_editeur'], autor, editor)
+            book: Book = Book(record['titre'], record['resume'], record['date_parution'], record['nb_pages'], record['isbn'], record['prix_editeur'], autor, editor)
 
             # Si le nombre de votes a été retourné par la requête (quand on demande les livres pour une sélection donnée), on l'enregistre aussi dans le livre
             if 'nb_votes_scrutin_final' in record and record['nb_votes_scrutin_final'] is not None:
