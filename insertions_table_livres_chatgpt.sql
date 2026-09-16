@@ -32,15 +32,21 @@ INSERT INTO `livre`
 VALUES
 
 (2, "Minotaure",
-"A 23 ans, Boris Bergmann entreprend de retrouver son père, qu'il n'a jamais rencontré. Cette quête personnelle devient un récit autobiographique consacré à l'absence du père, à la relation à la mère et au besoin de construire son identité. Le livre mêle souvenirs, histoires vécues et réflexion sur l'amour et la filiation.",
+"Être l'indésiré, né hors du désir du père, voilà mon acte de naissance.
+J'y réponds par un désir extrême, une surenchère d'histoires vécues... ou racontées.
+Après tout, le Minotaure est un Forçat du sentiment. Forcé d'aimer tous ceux qu'il rencontre.
+Avant de les dévorer.",
 "2026-08-19", 256, 9782226511874, 20.90, 2, 2),
 
 (3, "Faire la peau",
-"Une femme interroge le lien entre les mères et leurs filles, ainsi que la violence qui peut circuler dans cette relation. Le roman explore la transmission, la haine, l'amour et les blessures familiales à travers une écriture qui cherche à regarder les rapports mère-fille sans détour.",
+"Je dis que l'une des plus tenaces fictions tient tout entière dans ce mot, mère. Que la haine qui circule entre les mères et leurs filles est sauvage, et qu'il faut la regarder droit dans les yeux.",
 "2026-08-20", 288, 9782818063583, 21.00, 3, 3),
 
 (4, "Chronique d'un royaume perdu",
-"Sur l'île Maurice, dans le village isolé du Bouchon, quatre générations d'une même famille vivent depuis l'époque de l'esclavage. Les destins familiaux, les passions, les croyances et les rapports entre les êtres se mêlent dans une fresque où le réel côtoie le surnaturel.",
+"Au Bouchon, petit village isolé de l’île Maurice, quatre générations se succèdent depuis le temps de l’esclavage. La violence se mêle à l’amour, la tendresse à la haine, les plus nobles passions aux vices les plus vils, les sangs des unes aux sangs des autres…
+Les cinq fondateurs viennent d’une plantation lointaine  : trois sont nés dans la puissante et blanche famille Dumontais  ; deux d’une esclave noire. Mais les trois blancs sont en vérité le fruit d’une passion entre Madame et le Vieux Bouc, un esclave magnétique qui revendique aussi la paternité des deux derniers. Bannis pour s’être liés d’amour et d’amitié, les cinq enfants devenus grands trouvent refuge dans ce lieu perdu dont ils font leur royaume, autarcique et magique, qu’ils défendent d’un seul corps, puisqu’ici sont abolies les frontières entre passé, présent et avenir  ; vie et mort  ; réel et fantastique.
+Tel homme entend sans le vouloir tous les péchés humains  ; telle femme meurt et renait en déesse protectrice  ; un enfant vit parmi les oiseaux quand son cousin viole et tue sans frein  ; le moulin est hanté par les voix des fantômes, la nature donne les plus beaux fruits mais décapite la chapelle  ; les guerres du monde contemporain rencontrent les combats intérieurs de chaque individu et l’histoire de l’humanité se reproduit dans l’infiniment petit de leurs existences débridées. Parmi eux, un enfant timide sera le chroniqueur de ce royaume hors-norme dont il livre les jours de paix, de luttes, et les nuits de folie pour empêcher l’oubli.
+Épopée fabuleuse,  mythologie vibrante, fable majestueuse, cette Chronique d’un Royaume perdu est le chef d’œuvre d’Ananda Devi.",
 "2026-08-19", 464, 9782246846949, 24.00, 4, 4),
 
 (5, "Le fabuleux piano",

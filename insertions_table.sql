@@ -14,7 +14,7 @@ Pour ce livre, il a lu les soixante-quinze enquêtes de Maigret, s'inspirant hum
 
 ''' Après oubli des personnages principaux je mets ceux du premier livre et Chat Gpt va me préparer la suite'''
 INSERT INTO `personnage` (`id_personnage`, `nom`, `prenom`, `id_livre`) VALUES
-(1, 'Ferrieres', '', 1);
+(1, 'Ferriere', '', 1);
 
 ''' Insertion des membres du jury et du président '''
 INSERT INTO `jury` (`id_jury`, `nom`, `prenom`, `is_president`) VALUES

@@ -160,7 +160,7 @@ CREATE TABLE `livre` (
   `resume` text DEFAULT NULL,
   `date_parution` date DEFAULT NULL,
   `nb_pages` smallint(6) DEFAULT NULL,
-  `ISBN` bigint(20) DEFAULT NULL,
+  `isbn` bigint(20) DEFAULT NULL,
   `prix_editeur` decimal(10,2) DEFAULT NULL,
   `id_editeur` int(11) NOT NULL,
   `id_auteur` int(11) NOT NULL
