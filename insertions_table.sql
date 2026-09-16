@@ -45,6 +45,9 @@ INSERT INTO `personnage` (`id_personnage`, `nom`, `prenom`, `id_livre`) VALUES
 INSERT INTO `personnage` (`id_personnage`, `nom`, `prenom`, `id_livre`) VALUES
 (14, 'Olivier', '', 7);
 
+INSERT INTO `personnage` (`id_personnage`, `nom`, `prenom`, `id_livre`) VALUES
+(15, 'Devillers', 'Sonia', 5);
+
 
 ''' Insertion des 16 livres dans la première sélection '''
 INSERT INTO `choix` (id_livre, id_jury, num_selection) VALUES
