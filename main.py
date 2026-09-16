@@ -41,6 +41,30 @@ def input_menu(items, multiline = False):
     return get_int_input(menu, 0, len(items))
 
 
+def show_jury(goncourt_instance:Goncourt):
+    print("****************** Méthode qui affiche la liste des membres du jury ******************")
+    list_jurys: list[Jury] = goncourt_instance.get_jurys_list()
+    for j in list_jurys:
+        print(j)
+
+def show_selections(goncourt_instance:Goncourt):
+    print("****************** Sélections déjà passées ******************")
+    num_selection = get_int_input("Entrez le numéro de la sélection demandée : 1,2,3 ou 4 pour voir le lauréat\n", 1, 4)
+    selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
+    print(selection)
+    if (not goncourt_instance.is_selection_already(num_selection)):
+        print(
+            f"Cette sélection n'a pas encore été effectuée, il faudra attendre le {selection.selection_date} pour voir les livres qui auront été choisis")
+
+#def choice_for_selection(goncourt_instance:Goncourt):
+
+
+
+#def choice_laureat(goncourt_instance:Goncourt)
+
+
+
+
 def main() -> None:
     """Programme principal."""
     print("""--------------------------    
@@ -72,20 +96,15 @@ Prix Goncourt 2026
         is_selection_4_already = goncourt_instance.is_selection_already(4)
 
         match choix:
+            # Item : Visiteur : Afficher la liste des membres du jury
             case 1:
-                print("****************** Liste des membres du jury ******************")
-                list_jurys: list[Jury] = goncourt_instance.get_jurys_list()
-                for j in list_jurys:
-                    print(j)
+                show_jury(goncourt_instance)
                 input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+            # Item : Visiteur : Afficher les livres des sélections déjà passées
             case 2:
-                print("****************** Sélections déjà passées ******************")
-                num_selection = get_int_input("Entrez le numéro de la sélection demandée : 1,2,3 ou 4 pour voir le lauréat\n", 1, 4)
-                selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
-                print(selection)
-                if (not goncourt_instance.is_selection_already(num_selection)):
-                    print(f"Cette sélection n'a pas encore été effectuée, il faudra attendre le {selection.selection_date} pour voir les livres qui auront été choisis")
+                show_selections(goncourt_instance)
                 input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+            # Item : Président : Choisir les livres pour la 2ème ou la 3ème sélection
             case 3:
                 print("****************** Choix des livres pour la 2ème puis la 3ème sélection ******************")
                 num_selection = 2
@@ -129,6 +148,7 @@ Prix Goncourt 2026
 
                 print ("Sélection bien effectuée")
                 input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+            # Item : Président : Après le dernier scrutin, indiquer les votes pour les livres et le lauréat
             case 4:
                 print("****************** Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat ******************")
                 # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
@@ -163,6 +183,9 @@ Prix Goncourt 2026
 
                         # On enregistre le nombre de votes dans la base (dans la sélection 3 en fait)
                         goncourt_instance.update_nb_vote_by_book_selection(b.id_book, nb_votes)
+
+                    # TODO Gérer le compte des votes pour enregistrer automatiquement comme lauréat celui avec le plus grand nombre ,et uniquement en cas de doublons
+                    # Demander au président de choisir le lauréat = > Manque de temps pour faire ça !!
 
                     # Enregistrer le lauréat dans la 4ème sélection
                     laureat_id = get_int_input("Entrez le numéro de livre du lauréat 2026 \n", 1, 16)
