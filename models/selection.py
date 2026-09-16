@@ -45,7 +45,7 @@ class Selection:
         else:
             selection_str = "Lauréat \n"
         selection_str += f"{self.nb_books} livres - Date de la sélection : {self.selection_date} "
-        if (len(self.selected_books) != 0):
+        if (self.selected_books is not None) and (len(self.selected_books) != 0):
             selection_str += f"\ Liste des livres : "
             for book in self.selected_books:
                 selection_str += f"{book}"
