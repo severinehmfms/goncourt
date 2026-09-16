@@ -12,6 +12,7 @@ from models.book import Book
 from models.jury import Jury
 from models.selection import Selection
 
+
 @dataclass
 class SelectionDao(Dao[Selection]):
 
@@ -64,7 +65,7 @@ class SelectionDao(Dao[Selection]):
         return selections_list
 
     def add_book_to_selection(self, selection: Selection, id_book:int, jury:Jury, nb_votes_scrutin_final: Optional[int] = None) -> None:
-        print("Méthode en cours d'implémentation")
+        """ Méthode qui permet d'ajouter dans la base de données un livre à la sélection (= une ligne dans la table choix)"""
         try:
             with Dao.connection.cursor() as cursor:
                 if (selection.nb_selection == 4 and nb_votes_scrutin_final != None):
@@ -72,7 +73,7 @@ class SelectionDao(Dao[Selection]):
                             VALUES (%s, %s, %s)"""
                     cursor.execute(sql, (
                         id_book,
-                        jury.id,
+                        jury.id_jury,
                         selection.nb_selection,
                         nb_votes_scrutin_final
                     ))
@@ -81,12 +82,12 @@ class SelectionDao(Dao[Selection]):
                           VALUES (%s, %s, %s)"""
                     cursor.execute(sql, (
                         id_book,
-                        jury.id,
+                        jury.id_jury,
                         selection.nb_selection
                     ))
-                print(sql)
-                # récupération de l'id généré
-                id_choice = cursor.lastrowid
+
+                # récupération de l'id généré (pas utile)
+                # id_choice = cursor.lastrowid
 
                 Dao.connection.commit()
 

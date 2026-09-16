@@ -12,14 +12,13 @@ from daos.editor_dao import EditorDao
 from models.autor import Autor
 from models.book import Book
 from models.editor import Editor
-from models.selection import Selection
 
 
 @dataclass
 class BookDao(Dao[Book]):
 
     @staticmethod
-    def book_from_db(record) -> Book:
+    def book_from_db(record) -> Optional[Book]:
         """Construit un livre du modèle d'après son entité en BD"""
         # On récupère l'auteur correspondant à l'id_auteur
         autor: Optional[Autor] = None
@@ -37,7 +36,7 @@ class BookDao(Dao[Book]):
             book: Book = Book(record['titre'], record['resume'], record['date_parution'], record['nb_pages'], record['ISBN'], record['prix_editeur'], autor, editor)
 
             # Si le nombre de votes a été retourné par la requête (quand on demande les livres pour une sélection donnée), on l'enregistre aussi dans le livre
-            if ('nb_votes_scrutin_final' in record and record['nb_votes_scrutin_final'] is not None):
+            if 'nb_votes_scrutin_final' in record and record['nb_votes_scrutin_final'] is not None:
                 book.set_nb_vote_final_round(record['nb_votes_scrutin_final'])
 
             book.id_book = record['id_livre']
@@ -115,7 +114,8 @@ class BookDao(Dao[Book]):
     def delete(self, book: Book) -> None:
         print("Méthode non implémentée")
 
-    def is_nb_books_completed(self, num_selection:int) -> bool:
+    @staticmethod
+    def is_nb_books_completed(num_selection:int) -> bool:
         """ Méthode qui compare le nombre de livres déjà sélectionnés avec le nombre de livres attendus pour la sélection
         Renvoie true si le nombre de livres sélectionnés est égal au nombre de livres attendus, false sinon
         """

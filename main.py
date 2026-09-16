@@ -52,7 +52,7 @@ Prix Goncourt 2026
 
     # On récupère le President, pour l'instant id en dur
     president: President = goncourt_instance.get_jury_by_id(1)
-    #print(president)
+    # print(president)
 
     # Menu de l'application
     menu = [
@@ -101,28 +101,31 @@ Prix Goncourt 2026
                 elif (is_selection_2_already):
                     num_selection = 3
 
-                print(f"Sélection numéro {num_selection} : ")
+                print(f"Vous allez choisir les livres pour la sélection numéro {num_selection} : ")
                 selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                 print(selection)
 
+                #Pour la deuxième sélection, on va afficher les livres de la 1ère sélection, et pour la troisième sélection on va afficher les livres de la 2ème sélection !
                 print("Voici les livres disponibles : ")
-                list_books: list[Book] = goncourt_instance.get_books_list()
-                for b in list_books:
+                list_books_availables: list[Book] = goncourt_instance.get_books_by_selection(num_selection-1)
+                for b in list_books_availables:
                     print(b)
 
-                print(f"Vous allez choisir {selection.nb_books} livres parmi les livres existants.")
-                #Boucle par rapport au nombre de livres
+                print(f"Vous allez choisir {selection.nb_books} livres parmi les livres proposés ci-dessus.")
                 list_id_books_selected: list[int] = []
                 for i in range(0, selection.nb_books):
                     # On demande au président le numéro du livre qu'il souhaite ajouter à la sélection
-                    id_book_choisi = get_int_input("Entrez le numéro d'un livre à ajouter à la sélection \n", 1, selection.nb_books)
-                    # TODO pour test
-                    #id_book_choisi = i+1
+                    # TODO Mis 16 en dur car c'est le numéro du dernier livre, mais idéalement il faudrait vérifier que le numéro de livre choisi
+                    # Fait partie de la liste des livres de la sélection précédente (list_books_availables)
+                    # Mais pour ça faut faire fonction spéciale input avec les tests qui vont bien et je manque de temps
+                    id_book_choisi = get_int_input("Entrez le numéro d'un livre à ajouter à la sélection \n", 1, 16)
                     # TODO Mettre en place une vérification si un numéro a été choisi deux fois : peur de manquer de temps pour le faire !!!
+                    #  (idem trois lignes plus haute dans fonction spécifique)
                     list_id_books_selected.append(id_book_choisi)
 
                 # On appelle la fonction métier qui va ajouter le livre à cette sélection
                 for id in list_id_books_selected:
+                    # print(f"On va ajouter le livre numéro {id} à la base")
                     goncourt_instance.add_book_to_selection(president, id, selection)
 
             case 4:

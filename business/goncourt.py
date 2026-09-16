@@ -98,14 +98,15 @@ class Goncourt:
         et obligatoirement 4 livres pour la troisième, et obligatoirement un lauréat pour la quatrième (=après le dernier scrutin)
         On considère donc comme déjà faite toute sélection qui comporte le nombre de livres attendu
         """
-        book_dao: BookDao = BookDao()
-        return book_dao.is_nb_books_completed(num_selection)
+        #book_dao: BookDao = BookDao()
+        return BookDao.is_nb_books_completed(num_selection)
 
     def add_book_to_selection(self,jury: Jury, id_book: int, selection: Selection, nb_votes_scrutin_final: Optional[int] = None) -> None:
         """Fonction qui ajoute un livre à la sélection"""
         selection_dao: SelectionDao = SelectionDao()
-        print(f"On va ajouter le livre numéro {id_book} à la sélection {selection.nb_selection}")
+        # print(f"On va ajouter le livre numéro {id_book} à la sélection {selection.nb_selection}")
         if (nb_votes_scrutin_final is not None):
-            selection_dao.add_book_to_selection(selection, id_book, jury, nb_votes_scrutin_final)
+            print(f"Commenté. On va ajouter le livre numéro {id_book} avec le nombre de votes {nb_votes_scrutin_final} à la sélection {selection.nb_selection}")
+            # selection_dao.add_book_to_selection(selection, id_book, jury, nb_votes_scrutin_final)
         else:
             selection_dao.add_book_to_selection(selection, id_book, jury)
