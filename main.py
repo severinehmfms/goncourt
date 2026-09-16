@@ -15,9 +15,7 @@ def get_int_input(prompt, min_int, max_int):
     user_input = input(prompt).strip()
 
     while not user_input.isdigit() or not min_int <= int(user_input) <= max_int:
-        user_input = input(
-            "Saisie incorrecte. Merci de recommencer : "
-        ).strip()
+        user_input = input("Saisie incorrecte. Merci de recommencer : ").strip()
 
     return int(user_input)
 
@@ -74,7 +72,7 @@ def main() -> None:
                 input("Appuyez sur la touche 'Entrée' pour retourner au menu")
             case 2:
                 print("****************** Sélections déjà passées ******************")
-                num_selection = get_int_input("Entrez le numéro de la sélection demandée : 1,2,3 ou 4 pour voir le lauréat", 1, 4)
+                num_selection = get_int_input("Entrez le numéro de la sélection demandée : 1,2,3 ou 4 pour voir le lauréat\n", 1, 4)
                 selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                 print(selection)
                 input("Appuyez sur la touche 'Entrée' pour retourner au menu")

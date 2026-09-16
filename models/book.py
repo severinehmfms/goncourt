@@ -44,4 +44,10 @@ class Book:
         self.nb_vote_final_round = nb_vote_final_round
 
     def __str__(self) -> str:
-        return f"{self.title} écrit par {self.autor.first_name} {self.autor.last_name}, édité par {self.editor.name} publié le {self.publication_date}, {self.nb_pages} pages, numéro ISBN {self.isbn}, prix : {self.price} \n Résumé : {self.resume} "
+        book_str =  (f"""TITRE : {self.title}
+Ecrit par {self.autor.first_name} {self.autor.last_name} - Edité par {self.editor.name}
+Publié le {self.publication_date} - numéro ISBN {self.isbn} 
+Prix : {self.price} - {self.nb_pages} pages \n""")
+        book_str += f"Résumé : {self.resume}\n"
+        book_str += "------------------------------------------------------\n"
+        return book_str

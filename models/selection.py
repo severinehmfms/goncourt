@@ -36,17 +36,10 @@ class Selection:
         self.jury = jury
 
     def __str__(self) -> str:
-        if (self.nb_selection == 1):
-            selection_str = "Première sélection \n"
-        elif (self.nb_selection == 2):
-            selection_str = "Deuxième sélection \n"
-        elif (self.nb_selection == 3):
-            selection_str = "Troisième sélection \n"
-        else:
-            selection_str = "Lauréat \n"
-        selection_str += f"{self.nb_books} livres - Date de la sélection : {self.selection_date} "
+        selection_str = f"{self.title} - {self.nb_books} livres - Date de la sélection : {self.selection_date} \n"
         if (self.selected_books is not None) and (len(self.selected_books) != 0):
-            selection_str += f"\ Liste des livres : "
+            selection_str += f"Liste des livres : \n "
+            selection_str += "------------------------------------------------------\n"
             for book in self.selected_books:
                 selection_str += f"{book}"
         return selection_str
