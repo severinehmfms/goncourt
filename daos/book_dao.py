@@ -4,6 +4,7 @@
 Classe Dao[Book]
 """
 from daos.autor_dao import AutorDao
+from daos.character_dao import CharacterDao
 from daos.dao import Dao
 from dataclasses import dataclass
 from typing import Optional
@@ -40,6 +41,12 @@ class BookDao(Dao[Book]):
                 book.set_nb_vote_final_round(record['nb_votes_scrutin_final'])
 
             book.id_book = record['id_livre']
+
+            # On récupère les personnages principaux de ce livre s'il en existe
+            character_dao: CharacterDao = CharacterDao()
+            characters_list = character_dao.read_all(record['id_livre']);
+            book.set_main_characters(characters_list)
+
             return book
         else:
             print("ERREUR l'auteur et l'éditeur ne peuvent pas être à null")
@@ -49,7 +56,6 @@ class BookDao(Dao[Book]):
         """Renvoie le livre correspondant à l'entité dont la clé primaire est id
            (ou None s'il n'a pu être trouvé)"""
         book: Optional[Book] = None
-
         try:
             with Dao.connection.cursor() as cursor:
                 sql = "SELECT * FROM livre WHERE id_livre = %s"

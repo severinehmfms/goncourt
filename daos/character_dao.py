@@ -47,11 +47,12 @@ class CharacterDao(Dao[Character]):
 
                 sql = ("SELECT * FROM personnage P "
                        "LEFT JOIN livre L "
-                       "ON P.id_livre = L.id_livre")
+                       "ON P.id_livre = L.id_livre ")
                 if id_book is None:
                     cursor.execute(sql)
                 else:
-                    sql += "WHERE id_livre = %s"
+                    sql += "WHERE L.id_livre = %s"
+                    print(sql)
                     cursor.execute(sql, (id_book,))
 
                 records = cursor.fetchall()
