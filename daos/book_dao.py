@@ -40,7 +40,7 @@ class BookDao(Dao[Book]):
             if ('nb_votes_scrutin_final' in record and record['nb_votes_scrutin_final'] is not None):
                 book.set_nb_vote_final_round(record['nb_votes_scrutin_final'])
 
-            book.id = record['id_livre']
+            book.id_book = record['id_livre']
             return book
         else:
             print("ERREUR l'auteur et l'éditeur ne peuvent pas être à null")

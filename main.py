@@ -62,6 +62,7 @@ def main() -> None:
         # On vérifie l'état des sélections
         is_selection_2_already = goncourt_instance.is_selection_already(2)
         is_selection_3_already = goncourt_instance.is_selection_already(3)
+        is_selection_4_already = goncourt_instance.is_selection_already(4)
 
         match choix:
             case 1:
@@ -75,21 +76,28 @@ def main() -> None:
                 num_selection = get_int_input("Entrez le numéro de la sélection demandée : 1,2,3 ou 4 pour voir le lauréat\n", 1, 4)
                 selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                 print(selection)
+                if (not goncourt_instance.is_selection_already(num_selection)):
+                    print(f"Cette sélection n'a pas encore été effectuée, il faudra attendre le {selection.selection_date} pour voir les livres qui auront été choisis")
                 input("Appuyez sur la touche 'Entrée' pour retourner au menu")
             case 3:
                 print("****************** Choix des livres pour la 2ème puis la 3ème sélection ******************")
-                # TODO Vérifier si la deuxième ET la troisième sélection ont pas déjà été faites
                 num_selection = 2
 
+                # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
                 if (is_selection_2_already and is_selection_3_already):
                     print("ERREUR - Les deux sélections ont déjà été renseignées, ce n'est plus possible de le faire.")
                     input("Appuyez sur la touche 'Entrée' pour retourner au menu")
                     continue
+
+                # Si la 2ème sélection a déjà été faite, on va faire la troisième
                 elif (is_selection_2_already):
                     num_selection = 3
+
                 print(f"Sélection numéro {num_selection} : ")
                 selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                 print(selection)
+
+                #Boucle par rapport au nombre de livres
 
                 print(f"On doit donc choisir {selection.nb_books} livres parmi les livres existants")
 
@@ -100,7 +108,6 @@ def main() -> None:
                 # TODO Fonction à créer et faire en dao aussi --- On appelle la fonction métier qui renseigne cette sélection (et en base)
 
             case 4:
-                is_selection_4_already = goncourt_instance.is_selection_already(4)
                 print("****************** Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat ******************")
                 # TODO Vérifier si la deuxième ET la troisième sélection ont pas déjà été faites
                 if (not is_selection_2_already and not is_selection_3_already):
