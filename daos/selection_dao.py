@@ -3,10 +3,12 @@
 """
 Classe Dao[Selection]
 """
+from daos.book_dao import BookDao
 from daos.dao import Dao
 from dataclasses import dataclass
 from typing import Optional
 
+from models.book import Book
 from models.selection import Selection
 
 
@@ -17,7 +19,11 @@ class SelectionDao(Dao[Selection]):
     def selection_from_db(record) -> Selection:
         """Construit une sélection du modèle d'après son entité en BD"""
         selection: Selection = Selection(record['num_selection'], record['date_selection'], record['titre'], record['nb_livres'])
-        #selection.nb_selection = record['num_selection']
+
+        # On va récupérer les livres correspondant à cette sélection (en utilisant le DAO de Livre)
+        book_dao: BookDao = BookDao()
+        books_list = book_dao.read_all(record['num_selection']);
+        selection.selected_books = books_list
 
         return selection
 

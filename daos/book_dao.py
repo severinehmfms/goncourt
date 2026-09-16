@@ -115,4 +115,28 @@ class BookDao(Dao[Book]):
     def delete(self, book: Book) -> None:
         print("Méthode non implémentée")
 
+    def is_selection_completed(self, num_selection:int) -> bool:
+        """ Méthode qui compare le nombre de livres déjà sélectionnés avec le nombre de livres attendus pour la sélection
+        Renvoie true si le nombre de livres sélectionnés est égal au nombre de livres attendus, false sinon
+        """
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = ("""\
+                        SELECT COUNT(C.id_livre) AS nombre_livres, S.nb_livres AS nb_livres_attendus
+                        FROM choix C
+                        LEFT JOIN livre L
+                        ON C.id_livre = L.id_livre
+                        LEFT JOIN selection S
+                        ON C.num_selection = S.num_selection
+                        WHERE C.num_selection =  %s"""
+                       )
+                cursor.execute(sql, (num_selection,))
 
+                record = cursor.fetchone()
+                nombre_livres = record['nombre_livres']
+                nb_livres_attendus = record['nb_livres_attendus']
+                if (nombre_livres == nb_livres_attendus):
+                    return True
+        except Exception as e:
+            print(f"Exception : {e}")
+        return False

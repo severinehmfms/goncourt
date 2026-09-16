@@ -86,3 +86,18 @@ class Goncourt:
         """ Fonction qui retourne la liste des objets Selection """
         selection_dao: SelectionDao = SelectionDao()
         return selection_dao.read_all()
+
+    def get_books_by_selection(self, num_selection: int) -> Optional[list[Book]]:
+        """ Fonction qui retourne la liste des livres correspondant à une sélection """
+        book_dao: BookDao = BookDao()
+        return book_dao.read_all(num_selection)
+
+    def is_selection_already(self, num_selection: int) -> bool:
+        """ Fonction qui retourne True si la selection comprend déjà le bon nombre de livres attendus, False sinon
+        ==>Pour l'exercice, j'ai préféré considérer qu'il faut obligatoirement 8 livres pour la 2ème sélection,
+        et obligatoirement 4 livres pour la troisième, et obligatoirement un lauréat pour la quatrième (=après le dernier scrutin)
+        On considère donc comme déjà faite toute sélection qui comporte le nombre de livres attendu
+        """
+        book_dao: BookDao = BookDao()
+        return book_dao.is_selection_completed(num_selection)
+

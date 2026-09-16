@@ -48,7 +48,7 @@ def main() -> None:
 
     goncourt_instance: Goncourt = Goncourt()
 
-    # Menu de l'application => En test dans un premier temps (à modifier quand je gérerai la connection utilisateur)
+    # Menu de l'application
     menu = [
         "Visiteur : Afficher la liste des membres du jury",
         "Visiteur : Afficher les livres des sélections déjà passées",
@@ -60,6 +60,10 @@ def main() -> None:
     while (choix != 0):
         # On récupère le choix de l'utilisateur par rapport au menu
         choix = input_menu(menu, True)
+
+        # On vérifie l'état des sélections
+        is_selection_2_already = goncourt_instance.is_selection_already(2)
+        is_selection_3_already = goncourt_instance.is_selection_already(3)
 
         match choix:
             case 1:
@@ -78,8 +82,7 @@ def main() -> None:
                 print("****************** Choix des livres pour la 2ème puis la 3ème sélection ******************")
                 # TODO Vérifier si la deuxième ET la troisième sélection ont pas déjà été faites
                 num_selection = 2
-                is_selection_2_already = False
-                is_selection_3_already = False
+
                 if (is_selection_2_already and is_selection_3_already):
                     print("ERREUR - Les deux sélections ont déjà été renseignées, ce n'est plus possible de le faire.")
                     input("Appuyez sur la touche 'Entrée' pour retourner au menu")
@@ -89,23 +92,34 @@ def main() -> None:
                 print(f"Sélection numéro {num_selection} : ")
                 selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
                 print(selection)
-                # Si ok, alors on affiche la liste des livres dans un joli tableau et on demande au président de noter les numéros un par un séparés par un espace
+
+                print(f"On doit donc choisir {selection.nb_books} livres parmi les livres existants")
+
+                # TODO  Si ok, alors on affiche la liste des livres dans un joli tableau et on demande au président de noter les numéros un par un séparés par un espace
+
                 # TODO Préparer une méthode d'input qui récupère le bon nombre de numéros en fonction de la sélection choisie (8 pour 2ème, 4 pour 3ème)
 
                 # TODO Fonction à créer et faire en dao aussi --- On appelle la fonction métier qui renseigne cette sélection (et en base)
 
             case 4:
+                is_selection_4_already = goncourt_instance.is_selection_already(4)
                 print("****************** Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat ******************")
                 # TODO Vérifier si la deuxième ET la troisième sélection ont pas déjà été faites
-                is_selection_2_already = True
-                is_selection_3_already = True
                 if (not is_selection_2_already and not is_selection_3_already):
                     print("ERREUR - Les sélections n'ont pas encore toutes été renseignées, il n'est pas encore possible de réaliser cette action.")
+                    input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+                    continue
+                # On vérifie que la sélection du lauréat n'a pas déjà été effectuée
+                elif (is_selection_4_already):
+                    print("ERREUR - Les votes de la dernière sélection et la désignation du lauréat ont déjà été effectués, il est impossible de réaliser cette action.")
                     input("Appuyez sur la touche 'Entrée' pour retourner au menu")
                     continue
                 else:
                     num_selection = 4
                     selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
+
+
+
                     print(selection)
 
                     # TODO Afficher chaque livre de la troisième sélection et demander le nombre de votes pour chaque livre
