@@ -17,8 +17,6 @@ class CharacterDao(Dao[Character]):
         """Construit un personnage du modèle d'après son entité en BD"""
         character: Character = Character(record['nom'], record['prenom'])
         character.id = record['id_personnage']
-        # TODO Récupérer le livre correspondant à l'id
-        # record['id_livre']
         return character
 
     def read(self, id_character: int) -> Optional[Character]:
@@ -52,7 +50,6 @@ class CharacterDao(Dao[Character]):
                     cursor.execute(sql)
                 else:
                     sql += "WHERE L.id_livre = %s"
-                    #print(sql)
                     cursor.execute(sql, (id_book,))
 
                 records = cursor.fetchall()

@@ -8,7 +8,6 @@ from daos.dao import Dao
 from dataclasses import dataclass
 from typing import Optional
 
-from models.book import Book
 from models.jury import Jury
 from models.selection import Selection
 

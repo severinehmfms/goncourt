@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from dataclasses import dataclass
-from typing import ClassVar, Optional
+from typing import Optional
 
 
 @dataclass
@@ -18,8 +18,6 @@ class Autor:
         self.biography = biography
 
     def __str__(self) -> str:
-        #return f"{self.first_name} {self.last_name} : \n {self.biography}"
         autor_str = f"{self.last_name} {self.first_name} "
-        if (self.biography != ""): autor_str += f"\nBiographie de l'auteur : {self.biography} "
+        if self.biography != "": autor_str += f"\nBiographie de l'auteur : {self.biography} "
         return autor_str
-
