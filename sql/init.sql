@@ -78,6 +78,17 @@ CREATE TABLE `choix`(
    KEY `num_selection` (`num_selection`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+DROP TABLE IF EXISTS `votes`;
+CREATE TABLE `votes`(
+   id_livre INT NOT NULL,
+   id_jury SMALLINT NOT NULL,
+   num_selection SMALLINT NOT NULL,
+   PRIMARY KEY(id_livre, id_jury, num_selection),
+   KEY `id_livre` (`id_livre`),
+   KEY `id_jury` (`id_jury`),
+   KEY `num_selection` (`num_selection`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
 -- AJOUT DES CONTRAINTES --
 
 ALTER TABLE `livre`
@@ -91,6 +102,11 @@ ALTER TABLE `choix`
   ADD CONSTRAINT `choix_ibfk_1` FOREIGN KEY (`id_livre`) REFERENCES `livre` (`id_livre`),
   ADD CONSTRAINT `choix_ibfk_2` FOREIGN KEY (`id_jury`) REFERENCES `jury` (`id_jury`),
   ADD CONSTRAINT `choix_ibfk_3` FOREIGN KEY (`num_selection`) REFERENCES `selection` (`num_selection`);
+  
+ALTER TABLE `votes`
+  ADD CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`id_livre`) REFERENCES `livre` (`id_livre`),
+  ADD CONSTRAINT `votes_ibfk_2` FOREIGN KEY (`id_jury`) REFERENCES `jury` (`id_jury`),
+  ADD CONSTRAINT `votes_ibfk_3` FOREIGN KEY (`num_selection`) REFERENCES `selection` (`num_selection`);
 
 /* INSERTIONS EN BASE */
 
