@@ -1,0 +1,57 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="Hv-2lYiXzWRJ_wwprVq9">
+    <mxGraphModel dx="1022" dy="530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="A9PNPpqeRd7x4QfxkQga-2" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Afficher les livres pour chaque sélection déjà passée" vertex="1">
+          <mxGeometry height="70" width="140" x="230" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A9PNPpqeRd7x4QfxkQga-3" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Afficher les membres du jury et le Président" vertex="1">
+          <mxGeometry height="70" width="140" x="233" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="A9PNPpqeRd7x4QfxkQga-4" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Visiteur&lt;div&gt;Utilisateur simple&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="30" x="60" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-11" edge="1" parent="1" source="15sSExhVuAtEp7kVr3gR-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="75" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-3" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Président du Jury" vertex="1">
+          <mxGeometry height="60" width="30" x="60" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-7" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Choisir les livres pour la 2ème puis la 3ème sélection" vertex="1">
+          <mxGeometry height="70" width="140" x="235" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-8" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Indiquer pour chaque livre de la 3ème sélection le nombre de votes, et désigner le lauréat" vertex="1">
+          <mxGeometry height="70" width="140" x="235" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-9" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="A9PNPpqeRd7x4QfxkQga-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="110" y="125" as="sourcePoint" />
+            <mxPoint x="160" y="75" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-10" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="A9PNPpqeRd7x4QfxkQga-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="110" y="140" as="sourcePoint" />
+            <mxPoint x="160" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-14" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="15sSExhVuAtEp7kVr3gR-7" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="110" y="250" as="sourcePoint" />
+            <mxPoint x="160" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="15sSExhVuAtEp7kVr3gR-15" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" target="15sSExhVuAtEp7kVr3gR-8" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="110" y="270" as="sourcePoint" />
+            <mxPoint x="160" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
