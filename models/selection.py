@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import date
-from typing import List
+from typing import List, Optional
 from models.book import Book
 from models.jury import Jury
 
@@ -14,11 +14,12 @@ class Selection:
     selection_date: date
     title: str
     nb_books: int
-    jury: Jury
+    jury: Jury | None
     # Liste des personnages principaux du livre
     selected_books: list[Book]
 
-    def __init__(self, nb_selection: int, selection_date:date, title: str, nb_books:int, jury:Jury=None, selected_books:List=None) -> None:
+    def __init__(self, nb_selection: int, selection_date: date, title: str, nb_books: int, jury: Optional[Jury] = None,
+                 selected_books: Optional[List[Book]] = None) -> None:
         """ Constructeur """
         self.nb_selection = nb_selection
         self.selection_date = selection_date
@@ -38,7 +39,7 @@ class Selection:
     def __str__(self) -> str:
         selection_str = f"{self.title} - {self.nb_books} livres - Date de la sélection : {self.selection_date} \n"
         if (self.selected_books is not None) and (len(self.selected_books) != 0):
-            selection_str += f"Liste des livres : \n "
+            selection_str += "Liste des livres : \n "
             selection_str += "------------------------------------------------------\n"
             for book in self.selected_books:
                 selection_str += f"{book}"
