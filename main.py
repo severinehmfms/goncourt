@@ -56,7 +56,7 @@ def show_selections():
         return
     print(selection)
     if not Goncourt.is_selection_already(num_selection):
-        print(f"Cette sélection n'a pas encore été effectuée, il faudra attendre le {selection.selection_date} pour voir les livres qui auront été choisis")
+        print(f"Cette sélection n'a pas encore été effectuée, il faut attendre le {selection.selection_date}")
 
 
 def is_entry_id_book_ok(id_book_choisi, list_books_availables: list[Book], list_id_books_selected: list[int]):
@@ -114,7 +114,7 @@ def get_input_laureat(prompt: str, list_id_books_restants: list[int]):
     return id_book_choisi
 
 
-def choice_for_selection(president:Jury):
+def choice_for_selection(president: Jury):
     """ Fonction qui va permettre au Président de choisir les livres pour la deuxième et troisième sélection """
     # On vérifie l'état des sélections
     is_selection_2_already = Goncourt.is_selection_already(2)
@@ -135,9 +135,9 @@ def choice_for_selection(president:Jury):
     if selection is None:
         print(Goncourt.ERREUR_SELECTION)
         return
-    print(f"****** Choix des livres pour la {num_selection}ème sélection, en date du {selection.selection_date} ******")
+    print(f"****** Choix des livres {num_selection}ème sélection, Date : {selection.selection_date} ******")
 
-    # Pour la deuxième sélection, on va afficher les livres de la 1ère sélection, et pour la troisième sélection on va afficher les livres de la 2ème sélection !
+    # Pour la 2ème sélection, on affiche les livres de la 1ère, et pour la 3ème on affiche les livres de la 2ème
     print("Livres disponibles : ")
     list_books_availables: list[Book] = Goncourt.get_books_by_selection(num_selection - 1)
     for b in list_books_availables:
@@ -145,19 +145,18 @@ def choice_for_selection(president:Jury):
 
     print(f"Vous allez choisir {selection.nb_books} livres parmi les livres proposés ci-dessus.")
 
-    # list_id_books_selected: list[int] = []
-    list_id_books_selected = get_input_books("Entrez le numéro d'un livre à ajouter à la sélection \n", selection.nb_books, list_books_availables)
+    list_id_books_selected = get_input_books("Entrez le numéro du livre \n", selection.nb_books, list_books_availables)
 
     # On appelle la fonction métier qui va ajouter le livre à cette sélection
-    for id in list_id_books_selected:
-        Goncourt.add_book_to_selection(president, id, selection)
+    for id_book in list_id_books_selected:
+        Goncourt.add_book_to_selection(president, id_book, selection)
 
     print("Sélection bien effectuée")
     input(Goncourt.PRESS_ENTER)
 
 
-def choice_laureat(president:Jury):
-    """ Fonction qui permet au Président d'enregistrer les votes pour les livres de la troisième sélection, et de choisir le lauréat """
+def choice_laureat(president: Jury):
+    """ Fonction qui permet au Président de noter les votes du dernier scrutin """
     print("******* Saisie des votes pour les livres de la 3ème sélection, et choix du lauréat *******")
 
     # On vérifie l'état des sélections
@@ -167,17 +166,16 @@ def choice_laureat(president:Jury):
 
     # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
     if not is_selection_2_already or not is_selection_3_already:
-        print("ERREUR - Les sélections n'ont pas encore toutes été renseignées, il n'est pas encore possible de réaliser cette action.")
+        print("ERREUR - Les sélections n'ont pas encore toutes été renseignées, cette action est impossible.")
         input(Goncourt.PRESS_ENTER)
         return
 
     # On vérifie que la sélection du lauréat n'a pas déjà été effectuée
     if is_selection_4_already:
         print(
-            "ERREUR - Les votes de la dernière sélection et la désignation du lauréat ont déjà été effectués, il est impossible de réaliser cette action.")
+            "ERREUR - Les votes et la désignation du lauréat ont déjà été effectués, cette action est impossible.")
         input(Goncourt.PRESS_ENTER)
         return
-
 
     num_selection = 4
     selection = Goncourt.get_selection_by_id(num_selection)
@@ -195,13 +193,17 @@ def choice_laureat(president:Jury):
 
     # Pour chaque livre, on va demander au Président le nombre de votes obtenu
     for b in list_books_availables:
+        if b.id_book is None:
+            print("ERREUR - Le livre ne possède pas d'identifiant.")
+            return
+
         print(f"Livre Numéro {b.id_book} Titre : {b.title} ")
         nb_votes = get_int_input("Combien de votes ce livre a t'il obtenu ? \n", 0, 10)
 
         votes[b.id_book] = nb_votes
 
         # On enregistre le nombre de votes dans la base (dans la sélection 3 en fait)
-        if (not Goncourt.update_nb_vote_by_book_selection(b.id_book, nb_votes)):
+        if not Goncourt.update_nb_vote_by_book_selection(b.id_book, nb_votes):
             print("ERREUR lors de la mise à jour du nombre de votes pour ce livre")
 
     # On récupère le nombre de votes maximal
@@ -210,14 +212,16 @@ def choice_laureat(president:Jury):
     # On récupère le ou les id correspondant à ce maximal
     ids_max = [id_book for id_book, nb_votes in votes.items() if nb_votes == max_votes]
 
-    # S'il y a plus d'un seul livre qui a ce nombre de votes, alors on demande au Président de saisir l'id du livre lauréat
+    # Si plusieurs livres ont le même nombre maxi de votes, alors le Président doit choisir le lauréat
     if len(ids_max) > 1:
-        print(f"Égalité ! Les livres {ids_max} ont chacun {max_votes} votes. C'est au président d'entrer le lauréat : ")
+        print(f"Les livres {ids_max} ont chacun {max_votes} votes. C'est au président d'entrer le lauréat : ")
         # On demande au président de saisir le numéro du lauréat parmi les livres de la 3ème sélection
-        laureat_id = get_input_laureat("Entrez le numéro de livre du lauréat 2026 parmi ces livres : ",ids_max)
+        laureat_id = get_input_laureat("Entrez le numéro de livre du lauréat 2026 parmi ces livres : ", ids_max)
     else:
         print(f"Le livre {ids_max[0]} a remporté {max_votes} votes, c'est donc le lauréat 2026")
         laureat_id = ids_max[0]
+
+    laureat_id = int(laureat_id)
 
     # On ajoute le lauréat à la sélection numéro 4
     # print(f"On ajoute le lauréat : {laureat_id}")
