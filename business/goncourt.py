@@ -30,7 +30,7 @@ class Goncourt:
     # Constantes pour l'application
     SAISIE_INCORRECTE = "Saisie incorrecte. Merci de recommencer : "
 
-    def get_autor_by_id(self, id_autor: int) -> Optional[Autor]:
+    def get_autor_by_id(self, id_autor: int) -> Autor:
         """ Fonction qui retourne l'objet Autor via son id """
         autor_dao: AutorDao = AutorDao()
         return autor_dao.read(id_autor)
@@ -40,7 +40,7 @@ class Goncourt:
         autor_dao: AutorDao = AutorDao()
         return autor_dao.read_all()
 
-    def get_editor_by_id(self, id_editor: int) -> Optional[Editor]:
+    def get_editor_by_id(self, id_editor: int) -> Editor:
         """ Fonction qui retourne l'objet Editor via son id """
         editor_dao: EditorDao = EditorDao()
         return editor_dao.read(id_editor)
@@ -50,7 +50,7 @@ class Goncourt:
         editor_dao: EditorDao = EditorDao()
         return editor_dao.read_all()
 
-    def get_character_by_id(self, id_character: int) -> Optional[Character]:
+    def get_character_by_id(self, id_character: int) -> Character:
         """ Fonction qui retourne l'objet Character via son id """
         character_dao: CharacterDao = CharacterDao()
         return character_dao.read(id_character)
@@ -80,7 +80,7 @@ class Goncourt:
         jury_dao: JuryDao = JuryDao()
         return jury_dao.read_all()
 
-    def get_selection_by_id(self, num_selection: int) -> Optional[Selection]:
+    def get_selection_by_id(self, num_selection: int) -> Selection:
         """ Fonction qui retourne l'objet Selection via son id """
         selection_dao: SelectionDao = SelectionDao()
         return selection_dao.read(num_selection)
@@ -90,7 +90,7 @@ class Goncourt:
         selection_dao: SelectionDao = SelectionDao()
         return selection_dao.read_all()
 
-    def get_books_by_selection(self, num_selection: int) -> Optional[list[Book]]:
+    def get_books_by_selection(self, num_selection: int) -> list[Book]:
         """ Fonction qui retourne la liste des livres correspondant à une sélection """
         book_dao: BookDao = BookDao()
         return book_dao.read_all(num_selection)
@@ -110,7 +110,7 @@ class Goncourt:
         # print(f"On va ajouter le livre numéro {id_book} à la sélection {selection.nb_selection}")
         return selection_dao.add_book_to_selection(selection, id_book, jury)
 
-    def update_nb_vote_by_book_selection(self, id_book: int, nb_votes_scrutin_final: int, nb_selection: Optional[int] = 3) -> None:
+    def update_nb_vote_by_book_selection(self, id_book: int, nb_votes_scrutin_final: int, nb_selection: Optional[int] = 3) -> bool:
         """Fonction qui met à jour le nombre de votes des livres de la 3ème sélection pour le dernier scrutin
         Sauf demande contraire , on force à 3 le numéro de la sélection concerné par la mise à jour des votes
         """
