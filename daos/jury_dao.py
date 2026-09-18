@@ -63,10 +63,10 @@ class JuryDao(Dao[Jury]):
         return jurys_list
 
     def create(self, jury: Jury) -> None:
-        print("Méthode non implémentée")
+        print("Méthode create non implémentée")
 
     def update(self, jury: Jury) -> None:
-        print("Méthode non implémentée")
+        print("Méthode update non implémentée")
 
     def delete(self, jury: Jury) -> None:
-        print("Méthode non implémentée")
+        print("Méthode delete non implémentée")
