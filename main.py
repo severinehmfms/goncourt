@@ -57,6 +57,19 @@ def show_selections(goncourt_instance: Goncourt):
             f"Cette sélection n'a pas encore été effectuée, il faudra attendre le {selection.selection_date} pour voir les livres qui auront été choisis")
 
 
+def get_input_books(prompt: str, selection: Selection) -> list[int]:
+    list_id_books_selected: list[int] = []
+    #On demande au président le numéro du livre qu'il souhaite ajouter à la sélection
+    # TODO Mis 16 en dur car c'est le numéro du dernier livre, mais idéalement il faudrait vérifier que le numéro de livre choisi
+    # Fait partie de la liste des livres de la sélection précédente (list_books_availables)
+    # Mais pour ça faut faire fonction spéciale input avec les tests qui vont bien et je manque de temps
+    id_book_choisi = get_int_input("Entrez le numéro d'un livre à ajouter à la sélection \n", 1, 16)
+    # TODO Mettre en place une vérification si un numéro a été choisi deux fois : peur de manquer de temps pour le faire !!!
+    #  (idem trois lignes plus haute dans fonction spécifique)
+    list_id_books_selected.append(id_book_choisi)
+    return list_id_books_selected
+
+
 def choice_for_selection(goncourt_instance:Goncourt, president:President):
     # On vérifie l'état des sélections
     is_selection_2_already = goncourt_instance.is_selection_already(2)
@@ -84,9 +97,11 @@ def choice_for_selection(goncourt_instance:Goncourt, president:President):
         print(b)
 
     print(f"Vous allez choisir {selection.nb_books} livres parmi les livres proposés ci-dessus.")
+
     list_id_books_selected: list[int] = []
+
     for _ in range(0, selection.nb_books):
-        # On demande au président le numéro du livre qu'il souhaite ajouter à la sélection
+        ''' On demande au président le numéro du livre qu'il souhaite ajouter à la sélection
         # TODO Mis 16 en dur car c'est le numéro du dernier livre, mais idéalement il faudrait vérifier que le numéro de livre choisi
         # Fait partie de la liste des livres de la sélection précédente (list_books_availables)
         # Mais pour ça faut faire fonction spéciale input avec les tests qui vont bien et je manque de temps
@@ -94,6 +109,9 @@ def choice_for_selection(goncourt_instance:Goncourt, president:President):
         # TODO Mettre en place une vérification si un numéro a été choisi deux fois : peur de manquer de temps pour le faire !!!
         #  (idem trois lignes plus haute dans fonction spécifique)
         list_id_books_selected.append(id_book_choisi)
+        '''
+        list_id_books_selected = get_input_books("Entrez le numéro d'un livre à ajouter à la sélection \n", selection)
+
 
     # On appelle la fonction métier qui va ajouter le livre à cette sélection
     for id in list_id_books_selected:
