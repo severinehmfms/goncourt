@@ -17,12 +17,13 @@ class JuryDao(Dao[Jury]):
     def jury_from_db(record) -> Jury:
         """Construit un membre du jury du modèle d'après son entité en BD"""
         if record['is_president']:
-            # Si is_president est à True, alors on crée un objet President!
-            jury: President = President(record['nom'], record['prenom'])
-            jury.id_jury = record['id_jury']
+            # jury: President = President(record['nom'], record['prenom'])
+            jury = President(record['nom'], record['prenom'])
         else:
-            jury: Jury = Jury(record['nom'], record['prenom'])
-            jury.id_jury = record['id_jury']
+            # jury: Jury = Jury(record['nom'], record['prenom'])
+            jury = Jury(record['nom'], record['prenom'])
+
+        jury.id_jury = record['id_jury']
         return jury
 
     def read(self, id_jury: int) -> Optional[Jury]:
