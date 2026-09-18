@@ -41,6 +41,7 @@ def input_menu(items, multiline=False):
 
 
 def show_jury(goncourt_instance: Goncourt):
+    """ Affiche la liste des membres du jury"""
     print("****** Liste des membres du jury ******")
     list_jurys: list[Jury] = goncourt_instance.get_jurys_list()
     for j in list_jurys:
@@ -48,6 +49,7 @@ def show_jury(goncourt_instance: Goncourt):
 
 
 def show_selections(goncourt_instance: Goncourt):
+    """ Affiche les sélections de livres """
     print("****** Affichage des sélections ******")
     num_selection = get_int_input("Entrez le numéro de la sélection demandée : 1,2,3 ou 4 pour voir le lauréat\n", 1, 4)
     selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
@@ -104,6 +106,7 @@ def get_input_books(prompt: str, nb_books: int, list_books_availables: list[Book
 
 
 def choice_for_selection(goncourt_instance:Goncourt, president:President):
+    """ Fonction qui va permettre au Président de choisir les livres pour la deuxième et troisième sélection """
     # On vérifie l'état des sélections
     is_selection_2_already = goncourt_instance.is_selection_already(2)
     is_selection_3_already = goncourt_instance.is_selection_already(3)
@@ -142,6 +145,7 @@ def choice_for_selection(goncourt_instance:Goncourt, president:President):
 
 
 def choice_laureat(goncourt_instance:Goncourt, president:President):
+    """ Fonction qui permet au Président d'enregistrer les votes pour les livres de la troisième sélection, et de choisir le lauréat """
     print("******* Saisie des votes pour les livres de la 3ème sélection, et choix du lauréat *******")
 
     # On vérifie l'état des sélections
