@@ -18,7 +18,8 @@ class SelectionDao(Dao[Selection]):
     @staticmethod
     def selection_from_db(record) -> Selection:
         """Construit une sélection du modèle d'après son entité en BD"""
-        selection: Selection = Selection(record['num_selection'], record['date_selection'], record['titre'], record['nb_livres'])
+        selection: Selection = Selection(record['num_selection'], record['date_selection'],
+                                         record['titre'], record['nb_livres'])
 
         # On va récupérer les livres correspondant à cette sélection (en utilisant le DAO de Livre)
         book_dao: BookDao = BookDao()
@@ -63,9 +64,9 @@ class SelectionDao(Dao[Selection]):
 
         return selections_list
 
-    # nb_votes_scrutin_final: Optional[int] = None
-    def add_book_to_selection(self, selection: Selection, id_book:int, jury:Jury) -> bool:
-        """ Méthode qui permet d'ajouter dans la base de données un livre à la sélection (= une ligne dans la table choix)"""
+    @staticmethod
+    def add_book_to_selection(selection: Selection, id_book: int, jury: Jury) -> bool:
+        """ Méthode qui permet d'ajouter dans la base de données un livre à la sélection """
         try:
             with Dao.connection.cursor() as cursor:
                 sql = """INSERT INTO choix(id_livre, id_jury, num_selection) 
@@ -88,7 +89,8 @@ class SelectionDao(Dao[Selection]):
             Dao.connection.rollback()
             return False
 
-    def update_nb_vote_by_book_selection(self, id_book:int, nb_votes:int, nb_selection:int) -> bool:
+    @staticmethod
+    def update_nb_vote_by_book_selection(id_book: int, nb_votes: int, nb_selection: int) -> bool:
         """ Méthode qui va permettre de mettre à jour le nombre de votes par livre de la 3ème sélection """
         try:
             with Dao.connection.cursor() as cursor:
