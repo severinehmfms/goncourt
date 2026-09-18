@@ -81,7 +81,12 @@ def is_entry_id_book_ok(id_book_choisi, list_books_availables: list[Book], list_
     return True
 
 
-def get_input_books(prompt: str, nb_books: int, list_books_availables: list[Book]) -> list[int]:
+# def get_input_books(prompt: str, nb_books: int, list_books_availables: list[Book]) -> list[int]:
+def get_input_books(
+            prompt: str,
+            nb_books: int,
+            list_books_availables: list[Book]
+    ) -> int | list[int]:
     """ Fonction qui demande au Président d'effectuer la saisie des id pour le nombre de livres attendus
     nb_books: integer, nombre d'id de livres à renseigner
     list_books_availables: liste des livres disponibles
@@ -102,6 +107,8 @@ def get_input_books(prompt: str, nb_books: int, list_books_availables: list[Book
         # On ajoute cet id à la liste des livres sélectionnés
         list_id_books_selected.append(id_book_choisi)
 
+    if nb_books == 1:
+        return list_id_books_selected[0]
     return list_id_books_selected
 
 
@@ -191,8 +198,9 @@ def choice_laureat(goncourt_instance:Goncourt, president:President):
         # TODO Gérer le compte des votes pour enregistrer automatiquement comme lauréat celui avec le plus grand nombre ,et uniquement en cas de doublons
         # Demander au président de choisir le lauréat = > Manque de temps pour faire ça !!
 
-        # Enregistrer le lauréat dans la 4ème sélection
-        laureat_id = get_int_input("Entrez le numéro de livre du lauréat 2026 \n", 1, 16)
+        # On demande au président de saisir le numéro du lauréat parmi les livres de la 3ème sélection
+        # laureat_id = get_int_input("Entrez le numéro de livre du lauréat 2026 \n", 1, 16
+        laureat_id = get_input_books("Entrez le numéro de livre du lauréat 2026 : ", 1, list_books_availables)
 
         # print(f"On va ajouter à la sélection numéro {selection.nb_selection}, le lauréat {laureat_id}")
         goncourt_instance.add_book_to_selection(president, laureat_id, selection)
