@@ -33,10 +33,15 @@ class BookDao(Dao[Book]):
         if id_editor is not None:
             editor = EditorDao().read(id_editor)
 
-        if (autor and editor) is not None:
-            book: Book = Book(record['titre'], record['resume'], record['date_parution'], record['nb_pages'], record['isbn'], record['prix_editeur'], autor, editor)
+        if editor is None:
+            print("ERREUR l'editeur est obligatoire")
+            return None
 
-            # Si le nombre de votes a été retourné par la requête (quand on demande les livres pour une sélection donnée), on l'enregistre aussi dans le livre
+        if (autor and editor) is not None:
+            book: Book = Book(record['titre'], record['resume'], record['date_parution'], record['nb_pages'],
+                              record['isbn'], record['prix_editeur'], autor, editor)
+
+            # Si le nombre de votes a été retourné par la requête on l'enregistre aussi dans le livre
             if 'nb_votes_scrutin_final' in record and record['nb_votes_scrutin_final'] is not None:
                 book.set_nb_vote_final_round(record['nb_votes_scrutin_final'])
 
@@ -44,7 +49,7 @@ class BookDao(Dao[Book]):
 
             # On récupère les personnages principaux de ce livre s'il en existe
             character_dao: CharacterDao = CharacterDao()
-            characters_list = character_dao.read_all(record['id_livre']);
+            characters_list = character_dao.read_all(record['id_livre'])
             book.set_main_characters(characters_list)
 
             return book
@@ -105,24 +110,26 @@ class BookDao(Dao[Book]):
 
             # Pour chaque enregistremnet on enregistre le livre correspondant dans la liste
             for record in records:
-                books_list.append(self.book_from_db(record))
+                book = self.book_from_db(record)
+                if book is not None:
+                    books_list.append(book)
         except Exception as e:
             print(f"Exception : {e}")
 
         return books_list
 
     def create(self, book: Book) -> None:
-        print("Méthode non implémentée")
+        print("Méthode create non implémentée")
 
     def update(self, book: Book) -> None:
-        print("Méthode non implémentée")
+        print("Méthode update non implémentée")
 
     def delete(self, book: Book) -> None:
-        print("Méthode non implémentée")
+        print("Méthode delete non implémentée")
 
     @staticmethod
-    def is_nb_books_completed(num_selection:int) -> bool:
-        """ Méthode qui compare le nombre de livres déjà sélectionnés avec le nombre de livres attendus pour la sélection
+    def is_nb_books_completed(num_selection: int) -> bool:
+        """ Méthode qui compare le nombre de livres de la sélection avec le nombre de livres attendus
         Renvoie true si le nombre de livres sélectionnés est égal au nombre de livres attendus, false sinon
         """
         try:
@@ -139,9 +146,15 @@ class BookDao(Dao[Book]):
                 cursor.execute(sql, (num_selection,))
 
                 record = cursor.fetchone()
+
+                if not record:
+                    return False
+
                 nombre_livres = record['nombre_livres']
                 nb_livres_attendus = record['nb_livres_attendus']
-                if (nombre_livres == nb_livres_attendus):
+
+                # print(f"on a {nombre_livres} livres et on en attend {nb_livres_attendus}")
+                if nombre_livres == nb_livres_attendus:
                     return True
         except Exception as e:
             print(f"Exception : {e}")
