@@ -27,6 +27,9 @@ class Goncourt:
     """Couche métier de l'application du prix Goncourt,
     reprenant les cas d'utilisation et les spécifications fonctionnelles """
 
+    # Constantes pour l'application
+    SAISIE_INCORRECTE = "Saisie incorrecte. Merci de recommencer : "
+
     def get_autor_by_id(self, id_autor: int) -> Optional[Autor]:
         """ Fonction qui retourne l'objet Autor via son id """
         autor_dao: AutorDao = AutorDao()
