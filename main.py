@@ -58,8 +58,6 @@ def show_selections(goncourt_instance: Goncourt):
 
 
 def choice_for_selection(goncourt_instance:Goncourt, president:President):
-    print("****************** Choix des livres pour la 2ème puis la 3ème sélection ******************")
-
     # On vérifie l'état des sélections
     is_selection_2_already = goncourt_instance.is_selection_already(2)
     is_selection_3_already = goncourt_instance.is_selection_already(3)
@@ -75,12 +73,12 @@ def choice_for_selection(goncourt_instance:Goncourt, president:President):
     elif is_selection_2_already:
         num_selection = 3
 
-    print(f"Vous allez choisir les livres pour la sélection numéro {num_selection} : ")
+    print(f"****** Choix des livres {num_selection}ème sélection ******")
     selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
     print(selection)
 
     # Pour la deuxième sélection, on va afficher les livres de la 1ère sélection, et pour la troisième sélection on va afficher les livres de la 2ème sélection !
-    print("Voici les livres disponibles : ")
+    print("Livres disponibles : ")
     list_books_availables: list[Book] = goncourt_instance.get_books_by_selection(num_selection - 1)
     for b in list_books_availables:
         print(b)
