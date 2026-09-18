@@ -105,7 +105,7 @@ def choice_for_selection(goncourt_instance:Goncourt, president:President):
 
 
 def choice_laureat(goncourt_instance:Goncourt, president:President):
-    print("******* Saisie des votes pour les livres de la dernière sélection, et attribution du lauréat *******")
+    print("******* Saisie des votes pour les livres de la 3ème sélection, et choix du lauréat *******")
 
     # On vérifie l'état des sélections
     is_selection_2_already = goncourt_instance.is_selection_already(2)
@@ -127,7 +127,7 @@ def choice_laureat(goncourt_instance:Goncourt, president:President):
     else:
         num_selection = 4
         selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
-        print(selection)
+        print(f"Choix du lauréat - Date : {selection.selection_date}")
 
         # On affiche les livres de la troisième sélection
         print("Voici les livres disponibles : ")
