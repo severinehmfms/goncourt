@@ -86,7 +86,8 @@ def get_input_books(
             prompt: str,
             nb_books: int,
             list_books_availables: list[Book]
-    ) -> int | list[int]:
+    ) -> list[int]:
+    # J'ai enlevé la possibilité de retourner un int , car finalement j'utilise une autre méthode pour l'ajout du lauréat int |  list[int]
     """ Fonction qui demande au Président d'effectuer la saisie des id pour le nombre de livres attendus
     prompt : Message qui s'affichera pour demander à l'utilisateur sa saisie
     nb_books: integer, nombre d'id de livres à renseigner
@@ -108,8 +109,6 @@ def get_input_books(
         # On ajoute cet id à la liste des livres sélectionnés
         list_id_books_selected.append(id_book_choisi)
 
-    if nb_books == 1:
-        return list_id_books_selected[0]
     return list_id_books_selected
 
 
@@ -131,7 +130,7 @@ def choice_for_selection(goncourt_instance:Goncourt, president:President):
     # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
     if is_selection_2_already and is_selection_3_already:
         print("ERREUR - Les deux sélections ont déjà été renseignées, ce n'est plus possible de le faire.")
-        input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+        input(Goncourt.PRESS_ENTER)
         return
 
     # Si la 2ème sélection a déjà été faite, on va faire la troisième
@@ -157,7 +156,7 @@ def choice_for_selection(goncourt_instance:Goncourt, president:President):
         goncourt_instance.add_book_to_selection(president, id, selection)
 
     print("Sélection bien effectuée")
-    input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+    input(Goncourt.PRESS_ENTER)
 
 
 def choice_laureat(goncourt_instance:Goncourt, president:President):
@@ -171,58 +170,59 @@ def choice_laureat(goncourt_instance:Goncourt, president:President):
 
     # On vérifie si la deuxième ET la troisième sélection ont pas déjà été faites
     if not is_selection_2_already or not is_selection_3_already:
-        print(
-            "ERREUR - Les sélections n'ont pas encore toutes été renseignées, il n'est pas encore possible de réaliser cette action.")
-        input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+        print("ERREUR - Les sélections n'ont pas encore toutes été renseignées, il n'est pas encore possible de réaliser cette action.")
+        input(Goncourt.PRESS_ENTER)
         return
+
     # On vérifie que la sélection du lauréat n'a pas déjà été effectuée
-    elif is_selection_4_already:
+    if is_selection_4_already:
         print(
             "ERREUR - Les votes de la dernière sélection et la désignation du lauréat ont déjà été effectués, il est impossible de réaliser cette action.")
-        input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+        input(Goncourt.PRESS_ENTER)
         return
+
+
+    num_selection = 4
+    selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
+    print(f"Choix du lauréat - Date : {selection.selection_date}")
+
+    # On affiche les livres de la troisième sélection
+    print("Voici les livres disponibles : ")
+    list_books_availables: list[Book] = goncourt_instance.get_books_by_selection(num_selection - 1)
+
+    # On crée un dictionnaire pour pouvoir mémoriser le nombre de votes par id de livre
+    votes = {}
+
+    # Pour chaque livre, on va demander au Président le nombre de votes obtenu
+    for b in list_books_availables:
+        print(f"Livre Numéro {b.id_book} Titre : {b.title} ")
+        nb_votes = get_int_input("Combien de votes ce livre a t'il obtenu ? \n", 0, 10)
+
+        votes[b.id_book] = nb_votes
+
+        # On enregistre le nombre de votes dans la base (dans la sélection 3 en fait)
+        goncourt_instance.update_nb_vote_by_book_selection(b.id_book, nb_votes)
+
+    # On récupère le nombre de votes maximal
+    max_votes = max(votes.values())
+
+    # On récupère le ou les id correspondant à ce maximal
+    ids_max = [id_book for id_book, nb_votes in votes.items() if nb_votes == max_votes]
+
+    # S'il y a plus d'un seul livre qui a ce nombre de votes, alors on demande au Président de saisir l'id du livre lauréat
+    if len(ids_max) > 1:
+        print(f"Égalité ! Les livres {ids_max} ont chacun {max_votes} votes. C'est au président d'entrer le lauréat : ")
+        # On demande au président de saisir le numéro du lauréat parmi les livres de la 3ème sélection
+        laureat_id = get_input_laureat("Entrez le numéro de livre du lauréat 2026 parmi ces livres : ",ids_max)
     else:
-        num_selection = 4
-        selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
-        print(f"Choix du lauréat - Date : {selection.selection_date}")
+        print(f"Le livre {ids_max[0]} a remporté {max_votes} votes, c'est donc le lauréat 2026")
+        laureat_id = ids_max[0]
 
-        # On affiche les livres de la troisième sélection
-        print("Voici les livres disponibles : ")
-        list_books_availables: list[Book] = goncourt_instance.get_books_by_selection(num_selection - 1)
-
-        # On crée un dictionnaire pour pouvoir mémoriser le nombre de votes par id de livre
-        votes = {}
-
-        # Pour chaque livre, on va demander au Président le nombre de votes obtenu
-        for b in list_books_availables:
-            print(f"Livre Numéro {b.id_book} Titre : {b.title} ")
-            nb_votes = get_int_input("Combien de votes ce livre a t'il obtenu ? \n", 0, 10)
-
-            votes[b.id_book] = nb_votes
-
-            # On enregistre le nombre de votes dans la base (dans la sélection 3 en fait)
-            goncourt_instance.update_nb_vote_by_book_selection(b.id_book, nb_votes)
-
-        # On récupère le nombre de votes maximal
-        max_votes = max(votes.values())
-
-        # On récupère le ou les id correspondant à ce maximal
-        ids_max = [id_book for id_book, nb_votes in votes.items() if nb_votes == max_votes]
-
-        # S'il y a plus d'un seul livre qui a ce nombre de votes, alors on demande au Président de saisir l'id du livre lauréat
-        if len(ids_max) > 1:
-            print(f"Égalité ! Les livres {ids_max} ont chacun {max_votes} votes. C'est au président d'entrer le lauréat : ")
-            # On demande au président de saisir le numéro du lauréat parmi les livres de la 3ème sélection
-            laureat_id = get_input_laureat("Entrez le numéro de livre du lauréat 2026 parmi ces livres : ",ids_max)
-        else:
-            print(f"Le livre {ids_max[0]} a remporté {max_votes} votes, c'est donc le lauréat 2026")
-            laureat_id = ids_max[0]
-
-        # On ajoute le lauréat à la sélection numéro 4
-        # print(f"On ajoute le lauréat : {laureat_id}")
-        goncourt_instance.add_book_to_selection(president, laureat_id, selection)
-        print("Action bien effectuée")
-        input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+    # On ajoute le lauréat à la sélection numéro 4
+    # print(f"On ajoute le lauréat : {laureat_id}")
+    goncourt_instance.add_book_to_selection(president, laureat_id, selection)
+    print("Action bien effectuée")
+    input(Goncourt.PRESS_ENTER)
 
 
 def main() -> None:
@@ -253,11 +253,11 @@ Prix Goncourt 2026
             # Item : Visiteur : Afficher la liste des membres du jury
             case 1:
                 show_jury(goncourt_instance)
-                input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+                input(Goncourt.PRESS_ENTER)
             # Item : Visiteur : Afficher les livres des sélections déjà passées
             case 2:
                 show_selections(goncourt_instance)
-                input("Appuyez sur la touche 'Entrée' pour retourner au menu")
+                input(Goncourt.PRESS_ENTER)
             # Item : Président : Choisir les livres pour la 2ème ou la 3ème sélection
             case 3:
                 choice_for_selection(goncourt_instance, president)
