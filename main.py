@@ -48,7 +48,7 @@ def show_jury(goncourt_instance: Goncourt):
 
 
 def show_selections(goncourt_instance: Goncourt):
-    print("*********** Affichage des sélections déjà passées ******************")
+    print("****** Affichage des sélections ******")
     num_selection = get_int_input("Entrez le numéro de la sélection demandée : 1,2,3 ou 4 pour voir le lauréat\n", 1, 4)
     selection: Selection = goncourt_instance.get_selection_by_id(num_selection)
     print(selection)
