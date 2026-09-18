@@ -22,7 +22,7 @@ class SelectionDao(Dao[Selection]):
 
         # On va récupérer les livres correspondant à cette sélection (en utilisant le DAO de Livre)
         book_dao: BookDao = BookDao()
-        books_list = book_dao.read_all(record['num_selection']);
+        books_list = book_dao.read_all(record['num_selection'])
         selection.selected_books = books_list
 
         return selection
@@ -109,10 +109,10 @@ class SelectionDao(Dao[Selection]):
             return False
 
     def create(self, selection: Selection) -> None:
-        print("Méthode non implémentée")
+        print("Méthode create non implémentée")
 
     def update(self, selection: Selection) -> None:
-        print("Méthode non implémentée")
+        print("Méthode update non implémentée")
 
     def delete(self, selection: Selection) -> None:
-        print("Méthode non implémentée")
+        print("Méthode delete non implémentée")
