@@ -22,7 +22,7 @@ class CharacterDao(Dao[Character]):
     def read(self, id_character: int) -> Optional[Character]:
         """Renvoie le personnage correspondant à l'entité dont la clé primaire est id
            (ou None s'il n'a pu être trouvé)"""
-        character: Optional[Character]
+        character: Optional[Character] = None
 
         try:
             with Dao.connection.cursor() as cursor:
@@ -62,10 +62,10 @@ class CharacterDao(Dao[Character]):
         return characters_list
 
     def create(self, character: Character) -> None:
-        print("Méthode non implémentée")
+        print("Méthode create non implémentée")
 
     def update(self, character: Character) -> None:
-        print("Méthode non implémentée")
+        print("Méthode update non implémentée")
 
     def delete(self, character: Character) -> None:
-        print("Méthode non implémentée")
+        print("Méthode delete non implémentée")
