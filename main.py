@@ -113,6 +113,14 @@ def get_input_books(
     return list_id_books_selected
 
 
+def get_input_laureat(prompt: str, list_id_books_restants: list[int]):
+    """ Fonction qui permet au président de choisir entre les livres ex-aequo en nombre de votes """
+    id_book_choisi = input(prompt).strip()
+    while not id_book_choisi.isdigit() or int(id_book_choisi) not in list_id_books_restants:
+        id_book_choisi = input("Saisie incorrecte. Merci de recommencer : ").strip()
+    return id_book_choisi
+
+
 def choice_for_selection(goncourt_instance:Goncourt, president:President):
     """ Fonction qui va permettre au Président de choisir les livres pour la deuxième et troisième sélection """
     # On vérifie l'état des sélections
@@ -182,28 +190,36 @@ def choice_laureat(goncourt_instance:Goncourt, president:President):
         print("Voici les livres disponibles : ")
         list_books_availables: list[Book] = goncourt_instance.get_books_by_selection(num_selection - 1)
 
-        # On va conserver celui qui a le plus de votes
-        max_votes = 0
-        # id_max_votes = 0
+        # On crée un dictionnaire pour pouvoir mémoriser le nombre de votes par id de livre
+        votes = {}
+
         # Pour chaque livre, on va demander au Président le nombre de votes obtenu
         for b in list_books_availables:
             print(f"Livre Numéro {b.id_book} Titre : {b.title} ")
             nb_votes = get_int_input("Combien de votes ce livre a t'il obtenu ? \n", 0, 10)
 
-            if nb_votes > max_votes:
-                max_votes = nb_votes
+            votes[b.id_book] = nb_votes
 
             # On enregistre le nombre de votes dans la base (dans la sélection 3 en fait)
             goncourt_instance.update_nb_vote_by_book_selection(b.id_book, nb_votes)
 
-        # TODO Gérer le compte des votes pour enregistrer automatiquement comme lauréat celui avec le plus grand nombre ,et uniquement en cas de doublons
-        # Demander au président de choisir le lauréat = > Manque de temps pour faire ça !!
+        # On récupère le nombre de votes maximal
+        max_votes = max(votes.values())
 
-        # On demande au président de saisir le numéro du lauréat parmi les livres de la 3ème sélection
-        # laureat_id = get_int_input("Entrez le numéro de livre du lauréat 2026 \n", 1, 16
-        laureat_id = get_input_books("Entrez le numéro de livre du lauréat 2026 : ", 1, list_books_availables)
+        # On récupère le ou les id correspondant à ce maximal
+        ids_max = [id_book for id_book, nb_votes in votes.items() if nb_votes == max_votes]
 
-        # print(f"On va ajouter à la sélection numéro {selection.nb_selection}, le lauréat {laureat_id}")
+        # S'il y a plus d'un seul livre qui a ce nombre de votes, alors on demande au Président de saisir l'id du livre lauréat
+        if len(ids_max) > 1:
+            print(f"Égalité ! Les livres {ids_max} ont chacun {max_votes} votes. C'est au président d'entrer le lauréat : ")
+            # On demande au président de saisir le numéro du lauréat parmi les livres de la 3ème sélection
+            laureat_id = get_input_laureat("Entrez le numéro de livre du lauréat 2026 parmi ces livres : ",ids_max)
+        else:
+            print(f"Le livre {ids_max[0]} a remporté {max_votes} votes, c'est donc le lauréat 2026")
+            laureat_id = ids_max[0]
+
+        # On ajoute le lauréat à la sélection numéro 4
+        # print(f"On ajoute le lauréat : {laureat_id}")
         goncourt_instance.add_book_to_selection(president, laureat_id, selection)
         print("Action bien effectuée")
         input("Appuyez sur la touche 'Entrée' pour retourner au menu")
@@ -219,7 +235,6 @@ Prix Goncourt 2026
 
     # On récupère le President, pour l'instant id en dur
     president: President = goncourt_instance.get_jury_by_id(1)
-    # print(president)
 
     # Menu de l'application
     menu = [
