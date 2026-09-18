@@ -22,7 +22,7 @@ class AutorDao(Dao[Autor]):
     def read(self, id_autor: int) -> Optional[Autor]:
         """Renvoie l'auteur correspondant à l'entité dont la clé primaire est id
            (ou None s'il n'a pu être trouvé)"""
-        autor: Optional[Autor]
+        autor: Optional[Autor] = None
 
         try:
             with Dao.connection.cursor() as cursor:
