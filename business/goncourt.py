@@ -29,6 +29,7 @@ class Goncourt:
 
     # Constantes pour l'application
     SAISIE_INCORRECTE = "Saisie incorrecte. Merci de recommencer : "
+    PRESS_ENTER = "Appuyez sur la touche 'Entrée' pour retourner au menu"
 
     def get_autor_by_id(self, id_autor: int) -> Autor:
         """ Fonction qui retourne l'objet Autor via son id """
