@@ -88,9 +88,10 @@ def get_input_books(
             list_books_availables: list[Book]
     ) -> int | list[int]:
     """ Fonction qui demande au Président d'effectuer la saisie des id pour le nombre de livres attendus
+    prompt : Message qui s'affichera pour demander à l'utilisateur sa saisie
     nb_books: integer, nombre d'id de livres à renseigner
     list_books_availables: liste des livres disponibles
-    Retourne une liste d'id choisis par le Président
+    Retourne une liste d'id choisis par le Président, ou un int seul si un seul livre est à renseigner (lauréat)
     """
     list_id_books_selected: list[int] = []
 
