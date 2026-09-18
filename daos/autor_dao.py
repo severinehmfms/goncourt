@@ -56,10 +56,10 @@ class AutorDao(Dao[Autor]):
         return autors_list
 
     def create(self, autor: Autor) -> None:
-        print("Méthode non implémentée")
+        print("Méthode create non implémentée")
 
     def update(self, autor: Autor) -> None:
-        print("Méthode non implémentée")
+        print("Méthode update non implémentée")
 
     def delete(self, autor: Autor) -> None:
-        print("Méthode non implémentée")
+        print("Méthode delete non implémentée")
