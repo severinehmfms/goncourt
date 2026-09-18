@@ -17,7 +17,7 @@ def get_int_input(prompt, min_int, max_int):
     user_input = input(prompt).strip()
 
     while not user_input.isdigit() or not min_int <= int(user_input) <= max_int:
-        user_input = input("Saisie incorrecte. Merci de recommencer : ").strip()
+        user_input = input(Goncourt.SAISIE_INCORRECTE).strip()
 
     return int(user_input)
 
@@ -101,7 +101,7 @@ def get_input_books(
 
         # On effectue les contrôles sur la saisie
         while not is_entry_id_book_ok(id_book_choisi, list_books_availables, list_id_books_selected):
-            id_book_choisi = input("Saisie incorrecte. Merci de recommencer : ").strip()
+            id_book_choisi = input(Goncourt.SAISIE_INCORRECTE).strip()
 
         id_book_choisi = int(id_book_choisi)
 
@@ -117,7 +117,7 @@ def get_input_laureat(prompt: str, list_id_books_restants: list[int]):
     """ Fonction qui permet au président de choisir entre les livres ex-aequo en nombre de votes """
     id_book_choisi = input(prompt).strip()
     while not id_book_choisi.isdigit() or int(id_book_choisi) not in list_id_books_restants:
-        id_book_choisi = input("Saisie incorrecte. Merci de recommencer : ").strip()
+        id_book_choisi = input(Goncourt.SAISIE_INCORRECTE).strip()
     return id_book_choisi
 
 
